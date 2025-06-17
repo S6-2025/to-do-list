@@ -5,8 +5,13 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: var(--background);
 
+  --text: #f0f0f0;
+  --background: #121212;
+  --primary: #0000ff;
+  --secondary: #2e007a;
+  --accent: #a500ff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
