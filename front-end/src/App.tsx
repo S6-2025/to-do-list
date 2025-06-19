@@ -2,8 +2,10 @@
 import AppRoutes from "./routes/AppRoutes";
 import { BrowserRouter, useLocation } from "react-router-dom";
 
-import Footer from "./components/Footer"; 
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import "./css/Todo.css";
+import "./css/Header.css";
 
 const AppContent: React.FC = () => {
   const location = useLocation();
@@ -18,7 +20,7 @@ const AppContent: React.FC = () => {
     <div className="app-container">
       {shouldShowHeader && <Header />}
       <AppRoutes />
-      <Footer specialColor={isSpecialRoute} />
+      <Footer  />
     </div>
   );
 };
