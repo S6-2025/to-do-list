@@ -4,8 +4,10 @@ import { BrowserRouter, useLocation } from "react-router-dom";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+
 import "./css/Todo.css";
 import "./css/Header.css";
+import "./css/Footer.css";
 
 const AppContent: React.FC = () => {
   const location = useLocation();

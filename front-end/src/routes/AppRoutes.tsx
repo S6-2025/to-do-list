@@ -9,7 +9,7 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
 
-      <Route path="/todo" element={<Todo />} />
+      <Route path="/" element={<Todo />} />
     </Routes>
   );
 };

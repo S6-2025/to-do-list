@@ -48,6 +48,12 @@
   text-decoration: none;
 }
 
+.logo > h1{
+    font-family: var(--libre);
+     
+    font-size: 3rem;
+}
+
 .logo>.header__SVG {
   width: 2rem;
   height: 2rem;

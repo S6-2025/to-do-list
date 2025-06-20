@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+
+
+
+  font-family: "Roboto", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -11,6 +16,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+
+  --font-read: "Roboto", sans-serif;
+  --font-logo: "Libre Bodoni", serif;
+
+
+
 
   --text: #f0f0f0;
   --background: #222222;
@@ -38,7 +50,9 @@ html, body, #root, .app-container {
 }
 
 .app-container {
-  min-height: 100vh;
+  min-height: fit-content;
+  display: flex;
+  flex-direction: column;
 }
 
 [include-html] {
