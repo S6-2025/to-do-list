@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+
+
+
+
+  font-family: "Roboto", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--text);
+  background-color: var(--background);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+
+  --font-read: "Roboto", sans-serif;
+  --font-logo: "Libre Bodoni", serif;
+
+
+
+
+  --text: #f0f0f0;
+  --background: #222222;
+  --primary: #0000ff;
+  --secondary: #2e007a;
+  --accent: #a500ff;
+  --done: #009110;
+  --inProgress: #dfa700;
+  --backlog: #00958d;
+  --cancelled: #950000
+}
+ 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-read);
+}
+
+html, body, #root, .app-container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+}
+
+.app-container {
+  min-height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+[include-html] {
+  display: contents;
+}
+
+.app-container > *:not(footer):not(header) {
+  flex: 1;
+}

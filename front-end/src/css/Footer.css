@@ -1,0 +1,14 @@
+.super-container-footer{
+  background-color: var(--secondary);
+  height: 7vh;
+  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+}
+
+ .footer-direitos{
+   font-size: 1.2rem;
+ }
