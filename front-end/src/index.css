@@ -107,3 +107,15 @@ textarea:focus {
   box-shadow: none;
   border: none; /* se quiser remover borda também */
 }
+
+select{
+  border-radius: 5px;
+  border: none;
+}
+
+select:focus {
+ 
+  outline: none;
+  box-shadow: none;
+  border: none; /* se quiser remover borda também */
+}

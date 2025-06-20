@@ -1,6 +1,6 @@
 
 
-export type TaskStatus = "backlog" | "in_progress" | "done";
+export type TaskStatus = "cancelled" | "backlog" | "in_progress" | "done";
 
 export type Task = {
   id: number;

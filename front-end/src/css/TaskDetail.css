@@ -1,23 +1,27 @@
 .task-detail__container {
 
-  position: absolute; /* importante para posicionar relativo ao pai */
+  position: absolute;
+  /* importante para posicionar relativo ao pai */
   top: 0;
-  left: 0; /* corrigir left: 1 para left: 0 (unidade faltando) */
-  width: 20%; /* ocupa 20% da largura do pai */
+  left: 0;
+  /* corrigir left: 1 para left: 0 (unidade faltando) */
+  width: 20%;
+  /* ocupa 20% da largura do pai */
   height: 100%;
-  background-color: pink; /* teste */
+  background-color: pink;
+  /* teste */
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-  transform: translateX(-100%); /* posição visível inicial */
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  /* posição visível inicial */
+  transition: transform .45s cubic-bezier(0.25, 0.8, 0.25, 1);
   z-index: 1000;
 
 
-display: grid;
+  display: grid;
   grid-template-rows: auto 1fr auto;
   padding: 1rem;
 
-  
+
 }
 
 /* Painel abre: mantém a posição original */
@@ -27,13 +31,14 @@ display: grid;
 
 /* Painel fecha: esconde para a esquerda */
 .task-detail__container.closing {
-  transition-duration: 0.26s;
+ transition: transform .45s cubic-bezier(0.25, 0.8, 0.25, 1);
   transform: translateX(-100%);
 }
 
 /* Empurra o conteúdo para direita enquanto painel aberto */
 .board__container.panel-open .board-columns__container {
-  margin-left: 20%; /* deve ser igual à largura do painel */
+  margin-left: 20%;
+  /* deve ser igual à largura do painel */
 }
 
 
@@ -60,16 +65,24 @@ display: grid;
   border-inline: none;
 }
 
-.task-detail-content label > input{
+.task-detail-content label>input {
   border-inline: none;
   border: none;
+
+}
+
+.task-detail-content label>input,
+select {
   border-radius: 2px;
   height: 1.8rem;
+
 }
-.task-detail-content label > input:focus{
+
+
+.task-detail-content label>input:focus {
   border-inline: none;
   border: none;
-  
+
 }
 
 .task-detail-content textarea {

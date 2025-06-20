@@ -1,7 +1,7 @@
 // src/components/TaskDetail.tsx
 
-import React, { useState } from "react";
-import { Task, TaskStatus } from "../utils/TasksTypes";
+import React, { useState, useEffect } from "react";
+import { Task } from "../utils/TasksTypes";
 
 type TaskDetailProps = {
   task: Task;
@@ -12,6 +12,10 @@ type TaskDetailProps = {
 
 const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate,className }) => {
   const [formData, setFormData] = useState<Task>({ ...task });
+
+  useEffect(() => {
+    setFormData({ ...task });  // Atualiza o estado local sempre que a task mudar
+  }, [task]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -40,6 +44,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate,classNa
         <label>
           Status:
           <select name="status" value={formData.status} onChange={handleChange}>
+            <option value="cancelled">Cancelado</option>
             <option value="backlog">Backlog</option>
             <option value="in_progress">Em andamento</option>
             <option value="done">Concluído</option>
