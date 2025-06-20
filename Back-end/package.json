@@ -10,7 +10,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsx --env-file=src/.env --watch  src/app.ts"
+    "start": "set JWT_SECRET='teste' && npx tsx --env-file=src/.env --watch  src/app.ts"
   },
   "keywords": [],
   "author": "",
