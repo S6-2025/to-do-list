@@ -5,7 +5,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="super-container-header">
+    <header className=" header__container">
       <div className="logo-container-header">
         <Link to="/" className="logo-header">
           <svg className="header__SVG">

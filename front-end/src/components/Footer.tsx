@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="super-container-footer">
+    <footer className="footer__container">
       
       <div className="footer-direitos">
 

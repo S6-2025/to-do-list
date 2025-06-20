@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const Todo: React.FC = () => {
   return (
-    <main className="super-container-todo" >
+    <main className="todo__container" >
 
     </main>
   )
