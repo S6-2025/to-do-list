@@ -1,6 +1,5 @@
 .super-container-header {
-  
-  background-color: var(--secondary);
+ 
   height: 11vh;
   display: flex;
   flex-direction: row;
