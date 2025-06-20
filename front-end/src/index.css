@@ -87,3 +87,23 @@
 *:hover::-webkit-scrollbar-thumb {
   background-color: rgba(240, 240, 240, 0.603); /* ou var(--text) com transparência */
 }
+
+
+input:focus {
+  outline: none;
+  box-shadow: none;
+  border: none; /* ou defina o que quiser */
+}
+input  {
+  padding-left: 0.5rem; /* ou 8px, 1ch, etc. */
+}
+textarea{
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  border-radius: 5px;
+}
+textarea:focus {
+  outline: none;
+  box-shadow: none;
+  border: none; /* se quiser remover borda também */
+}
