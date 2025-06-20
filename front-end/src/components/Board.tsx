@@ -46,16 +46,16 @@ const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask }) => {
   const filterTasks = (status: Task["status"]) =>
     tasks.filter((task) => task.status === status);
 
-    useEffect(() => {
-    if (isClosing) {
-      const timer = setTimeout(() => {
-        setExpandedTask(null);
-        setIsClosing(false);
-      }, 300); // tempo da animação (300ms no exemplo)
+useEffect(() => {
+  if (isClosing) {
+    const timer = setTimeout(() => {
+      setExpandedTask(null);  // aqui só remove depois da animação
+      setIsClosing(false);
+    }, 300); // tempo da animação em ms
 
-      return () => clearTimeout(timer);
-    }
-  }, [isClosing]);
+    return () => clearTimeout(timer);
+  }
+}, [isClosing]);
 
   return (
     <div className={`board__container ${expandedTask ? "panel-open" : ""}`}>

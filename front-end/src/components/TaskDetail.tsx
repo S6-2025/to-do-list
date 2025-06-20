@@ -23,7 +23,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate,classNa
   };
 
   return (
-    <div className="task-detail__container">
+    <div className={`task-detail__container ${className ?? ""}`}>
       <button className="close-panel" onClick={onClose}>×</button>
 
       <div className="task-detail-content">
