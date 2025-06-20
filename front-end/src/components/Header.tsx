@@ -6,8 +6,8 @@ const Header = () => {
 
   return (
     <header className="super-container-header">
-      <div className="logo-container">
-        <Link to="/" className="logo">
+      <div className="logo-container-header">
+        <Link to="/" className="logo-header">
           <svg className="header__SVG">
             <use xlinkHref="/icons.svg#book-heart" />
           </svg>
@@ -15,7 +15,7 @@ const Header = () => {
         </Link>
       </div>
 
-      <div className="links-container">
+      <div className="links-container-header">
         <ul>
           <li>
             <Link to="/" className="links-header"> Home</Link>

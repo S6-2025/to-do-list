@@ -8,14 +8,14 @@
   padding: 0 1rem;
 }
 
-.logo-container {
+.logo-container-header {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.links-container {
+.links-container-header {
   padding-left: 1rem;
   width: 20%;
   font-size: 1.6rem;
@@ -23,7 +23,7 @@
 
 }
 
-.links-container>ul {
+.links-container-header>ul {
   list-style: none;
   display: flex;
   flex-direction: row;
@@ -38,7 +38,7 @@
 
 }
 
-.logo {
+.logo-header {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -48,13 +48,13 @@
   text-decoration: none;
 }
 
-.logo > h1{
+.logo-header> h1{
     font-family: var(--libre);
      
     font-size: 3rem;
 }
 
-.logo>.header__SVG {
+.logo-header>.header__SVG {
   width: 2rem;
   height: 2rem;
   text-decoration: none;
