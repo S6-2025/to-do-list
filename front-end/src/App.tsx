@@ -1,4 +1,3 @@
-
 import AppRoutes from "./routes/AppRoutes";
 import { BrowserRouter, useLocation } from "react-router-dom";
 
@@ -8,6 +7,9 @@ import Footer from "./components/Footer";
 import "./css/Todo.css";
 import "./css/Header.css";
 import "./css/Footer.css";
+import "./css/Board.css";
+import "./css/BoardColumn.css";
+import "./css/TaskCard.css";
 
 const AppContent: React.FC = () => {
   const location = useLocation();
@@ -21,15 +23,17 @@ const AppContent: React.FC = () => {
   return (
     <div className="app-container">
       {shouldShowHeader && <Header />}
-      <AppRoutes />
-      <Footer  />
+      <div className="main-content">
+        <AppRoutes />
+      </div>
+      <Footer />
     </div>
   );
 };
 
 const App: React.FC = () => {
   return (
-   <BrowserRouter>
+    <BrowserRouter>
       <AppContent />
     </BrowserRouter>
   );

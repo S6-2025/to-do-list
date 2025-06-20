@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Todo from "../pages/Todo";
 import Login from "../pages/Login";
+ 
 
 const AppRoutes: React.FC = () => {
   return (
@@ -10,6 +11,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<Login />} />
 
       <Route path="/" element={<Todo />} />
+       
     </Routes>
   );
 };

@@ -42,23 +42,27 @@
   font-family: var(--font-read);
 }
 
-html, body, #root, .app-container {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: var(--background);
-}
+ 
 
 .app-container {
-  min-height: fit-content;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+
+.main-content {
+  flex-grow: 1;      /* cresce para ocupar todo espaço disponível */
+  min-height: 0;     /* evita overflow inesperado */
+       /* opcional */
 }
 
 [include-html] {
   display: contents;
 }
 
-.app-container > *:not(footer):not(header) {
-  flex: 1;
+.app-container > div:first-child {
+  flex: 1 0 auto;
 }
+
+ 

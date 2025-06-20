@@ -9,9 +9,9 @@ const Header = () => {
       <div className="logo-container-header">
         <Link to="/" className="logo-header">
           <svg className="header__SVG">
-            <use xlinkHref="/icons.svg#book-heart" />
+            <use xlinkHref="/icons.svg#plus" />
           </svg>
-          <h1>Todo List</h1>
+          <h1>ToTask</h1>
         </Link>
       </div>
 

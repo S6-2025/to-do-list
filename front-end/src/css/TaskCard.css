@@ -1,0 +1,60 @@
+.task-card__container {
+  display: grid;
+  grid-template-areas:
+    "assigned expand"
+    "title title";
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  background-color: darkgray;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  
+}
+
+.task-card__container:first-child{
+  margin-top: .5rem;
+}
+
+.task-card__container:last-child{
+  margin-bottom: .5rem;
+}
+
+
+.task-card__container input {
+  font-size: 1rem;
+  padding: 0.3rem;
+  width: 100%;
+  border:  none;
+  
+}
+
+
+.task-assigned {
+  grid-area: assigned;
+  font-size: 0.9rem;
+  color: #444;
+  align-self: center;
+  cursor: pointer;
+}
+
+.expand-button {
+  grid-area: expand;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  align-self: start;
+  justify-self: end;
+  cursor: pointer;
+}
+
+.task-title {
+  grid-area: title;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 0.3rem;
+  cursor: pointer;
+}
