@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { sql } from "./DB/db"; // importa o banco de dados
+import { sql } from "./DB/Database"; // importa o banco de dados
 
 const app = express();
 
