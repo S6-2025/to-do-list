@@ -1,10 +1,23 @@
 import express, { Request, Response } from "express";
 import { sql } from "./DB/Database"; // importa o banco de dados
+import cors from "cors";
+import authRouter from "./routes/auth.router.js";
+import userRouter from "./routes/user.router.js";
+import taskRouter from "./routes/task.router.js";
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
 
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOSTNAME || "localhost"
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors())
+app.use("/auth", authRouter)
+app.use("/users", userRouter)
+app.use("/auth", taskRouter)
+
+//Check Connection with database
 app.get("/", async (req: Request, res: Response) => {
   try {
     // Exemplo de consulta para verificar conexão
@@ -17,6 +30,8 @@ app.get("/", async (req: Request, res: Response) => {
   }
 });
 
+
 app.listen(PORT, () => {
-  console.log(`WORKING ON ${PORT}`);
-});
+    console.log(`🚀 Servidor rodando com sucesso em ${HOST}:${PORT}`);
+})
+
