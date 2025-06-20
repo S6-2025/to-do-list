@@ -1,0 +1,29 @@
+.task-detail__container {
+
+  position: absolute; /* importante para posicionar relativo ao pai */
+  top: 0;
+  left: 0; /* corrigir left: 1 para left: 0 (unidade faltando) */
+  width: 20%; /* ocupa 20% da largura do pai */
+  height: 100%;
+  background-color: pink; /* teste */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  transform: translateX(20%); /* posição visível inicial */
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  
+}
+
+/* Painel abre: mantém a posição original */
+.task-detail__container.opening {
+  transform: translateX(0);
+}
+
+/* Painel fecha: esconde para a esquerda */
+.task-detail__container.closing {
+  transform: translateX(-100%);
+}
+
+/* Empurra o conteúdo para direita enquanto painel aberto */
+.board__container.panel-open .board-columns__container {
+  margin-left: 20%; /* deve ser igual à largura do painel */
+}

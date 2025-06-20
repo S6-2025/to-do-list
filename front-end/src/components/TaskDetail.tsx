@@ -7,9 +7,10 @@ type TaskDetailProps = {
   task: Task;
   onClose: () => void;
   onUpdate: (task: Task) => void;
+  className?: string;
 };
 
-const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate }) => {
+const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate,className }) => {
   const [formData, setFormData] = useState<Task>({ ...task });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

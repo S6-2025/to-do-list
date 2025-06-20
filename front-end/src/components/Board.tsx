@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
 import BoardColumn from "./BoardColumn";
 import TaskDetail from "./TaskDetail";
 import { Task } from "../utils/TasksTypes";
@@ -7,11 +7,14 @@ type BoardProps = {
   tasks: Task[];
   setTasks: Dispatch<SetStateAction<Task[]>>;
   onUpdateTask: (updated: Task) => void;
+ 
 };
 
 const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask }) => {
   const [expandedTask, setExpandedTask] = useState<Task | null>(null);
+  const [isClosing, setIsClosing] = useState(false); // novo estado para animar saída
 
+ 
   const handleAddTask = (title: string) => {
     const newTask: Task = {
       id: Date.now(),
@@ -31,7 +34,8 @@ const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask }) => {
   };
 
   const handleCloseDetail = () => {
-    setExpandedTask(null);
+       setIsClosing(true);
+  
   };
 
   const handleUpdate = (updatedTask: Task) => {
@@ -42,11 +46,31 @@ const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask }) => {
   const filterTasks = (status: Task["status"]) =>
     tasks.filter((task) => task.status === status);
 
+    useEffect(() => {
+    if (isClosing) {
+      const timer = setTimeout(() => {
+        setExpandedTask(null);
+        setIsClosing(false);
+      }, 300); // tempo da animação (300ms no exemplo)
+
+      return () => clearTimeout(timer);
+    }
+  }, [isClosing]);
+
   return (
-    <div className="board__container">
+    <div className={`board__container ${expandedTask ? "panel-open" : ""}`}>
        
 
+      {expandedTask && (
+        <TaskDetail
+          task={expandedTask}
+          onClose={handleCloseDetail}
+          onUpdate={handleUpdate}
+          className={isClosing ? "closing" : "opening"}
+        />
+      )}
       <div className="board-columns__container">
+        
         <BoardColumn 
           title="Backlog"
           tasks={filterTasks("backlog")}
@@ -64,13 +88,6 @@ const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask }) => {
         />
       </div>
 
-      {expandedTask && (
-        <TaskDetail
-          task={expandedTask}
-          onClose={handleCloseDetail}
-          onUpdate={handleUpdate}
-        />
-      )}
     </div>
   );
 };

@@ -65,4 +65,25 @@
   flex: 1 0 auto;
 }
 
+
+/* Scrollbar base: invisível inicialmente */
+*::-webkit-scrollbar {
+  width: 0.4rem;
  
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Alça da scrollbar começa invisível */
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 4px;
+  transition: background-color 10s ease-in-out; /* transição suave */
+}
+
+/* Alça aparece com suavidade ao hover */
+*:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(240, 240, 240, 0.603); /* ou var(--text) com transparência */
+}

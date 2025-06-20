@@ -10,6 +10,7 @@ import "./css/Footer.css";
 import "./css/Board.css";
 import "./css/BoardColumn.css";
 import "./css/TaskCard.css";
+import "./css/TaskDetail.css";
 
 const AppContent: React.FC = () => {
   const location = useLocation();
