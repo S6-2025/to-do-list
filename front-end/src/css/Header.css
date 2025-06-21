@@ -65,5 +65,5 @@
 .logo-header > .header__SVG,
 .logo-header > h1,
 .links-header {
-  color: var(--secondary) ;
+  color: var(--secondary-todo) ;
 }
