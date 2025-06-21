@@ -33,16 +33,18 @@ const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
        
       />
       <select
+
         value={status}
-        onChange={(e) => setStatus(e.target.value as TaskStatus | "")}
+        onChange={(e) => setStatus(e.target.value as TaskStatus)}
       >
-        <option value="">Status</option>
+          <option value="" disabled hidden>Status</option>
+        <option value="cancelled">Cancelado</option>
         <option value="backlog">Backlog</option>
         <option value="in_progress">Em andamento</option>
         <option value="done">Concluído</option>
-        <option value="cancelled">Cancelado</option>
+        
       </select>
-      <button type="submit">Adicionar</button>
+      <button type="submit" className="button-add-task">Adicionar</button>
     </form>
    </div>
   );
