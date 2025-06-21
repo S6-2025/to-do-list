@@ -1,29 +1,50 @@
 import React, { useState } from "react";
 
+type TaskStatus = "backlog" | "in_progress" | "done" | "cancelled";
+
 type AddTaskProps = {
-  onAdd: (title: string) => void;
+  onAdd: (title: string, status: TaskStatus) => void; // agora recebe status também
 };
 
 const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
   const [title, setTitle] = useState("");
+  const [status, setStatus] = useState<TaskStatus | "">(""); // '' = não selecionado
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (title.trim() === "") return;
-    onAdd(title);
+
+    // se status vazio, default para backlog
+    const taskStatus: TaskStatus = status === "" ? "backlog" : status;
+
+    onAdd(title, taskStatus);
     setTitle("");
+    setStatus("");
   };
 
   return (
-    <form className="add-task-form" onSubmit={handleSubmit}>
+   <div className="add-task__container">
+     <form className="add-task-form" onSubmit={handleSubmit} >
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Digite a tarefa"
+       
       />
+      <select
+        value={status}
+        onChange={(e) => setStatus(e.target.value as TaskStatus | "")}
+      >
+        <option value="">Status</option>
+        <option value="backlog">Backlog</option>
+        <option value="in_progress">Em andamento</option>
+        <option value="done">Concluído</option>
+        <option value="cancelled">Cancelado</option>
+      </select>
       <button type="submit">Adicionar</button>
     </form>
+   </div>
   );
 };
 

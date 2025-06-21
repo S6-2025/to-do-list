@@ -12,6 +12,7 @@ import "./css/Board.css";
 import "./css/BoardColumn.css";
 import "./css/TaskCard.css";
 import "./css/TaskDetail.css";
+import "./css/AddTask.css";
 import React, { useEffect, useState } from "react";
 
 const AppContent: React.FC = () => {

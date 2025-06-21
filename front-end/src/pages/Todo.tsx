@@ -1,7 +1,7 @@
 import React from "react";
 import AddTask from "../components/AddTask";
 import Board from "../components/Board";
-import { Task } from "../utils/TasksTypes";
+import { Task, TaskStatus } from "../utils/TasksTypes";
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -13,18 +13,19 @@ type TodoProps = {
  
 
 const Todo: React.FC<TodoProps> = ({ tasks, setTasks, onUpdateTask }) => {
-  const handleAddTask = (title: string) => {
-    const newTask: Task = {
-      id: uuidv4(),
-      title,
-      assignedTo: "",
-      status: "backlog",
-      startDate: "",
-      endDate: "",
-      description: "",
-    };
-    setTasks((prev) => [newTask, ...prev]);
+const handleAddTask = (title: string, status: TaskStatus) => {
+  const newTask: Task = {
+    id: uuidv4(),
+    title,
+    status,
+    assignedTo: "",
+    startDate: "",
+    endDate: "",
+    description: "",
   };
+  setTasks((prev) => [newTask, ...prev]);
+};
+
 
   return (
     <main className="todo__container">

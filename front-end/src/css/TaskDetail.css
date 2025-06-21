@@ -8,6 +8,9 @@
   width: 20%;
   /* ocupa 20% da largura do pai */
   height: 100%;
+  overflow-y: auto;
+overflow-x: hidden;
+ 
   background-color: pink;
   /* teste */
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
@@ -63,31 +66,25 @@
   flex-direction: column;
   font-size: 0.9rem;
   border-inline: none;
+  
 }
 
-.task-detail-content label>input {
-  border-inline: none;
-  border: none;
-
-}
+ 
 
 .task-detail-content label>input,
 select {
-  border-radius: 2px;
+   
   height: 1.8rem;
 
 }
 
-
-.task-detail-content label>input:focus {
-  border-inline: none;
-  border: none;
+.task-detail-content label> textarea {
+ background-color: aquamarine;
+  min-width:  16.8rem;
 
 }
 
-.task-detail-content textarea {
-  resize: none;
-}
+ 
 
 .save-button {
   width: 100%;

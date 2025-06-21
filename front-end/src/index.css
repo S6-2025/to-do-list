@@ -95,12 +95,18 @@ input:focus {
   border: none; /* ou defina o que quiser */
 }
 input  {
-  padding-left: 0.5rem; /* ou 8px, 1ch, etc. */
+  outline: none;
+  box-shadow: none;
+  border: none; 
+  border-radius: .5rem;
+  padding-left: 0.8rem; /* ou 8px, 1ch, etc. */
 }
 textarea{
   padding-left: 0.5rem;
   padding-top: 0.5rem;
   border-radius: 5px;
+  resize: vertical;
+   
 }
 textarea:focus {
   outline: none;
@@ -109,8 +115,11 @@ textarea:focus {
 }
 
 select{
-  border-radius: 5px;
+  text-align: center;
+  appearance: none;
+  border-radius: .5rem;
   border: none;
+  
 }
 
 select:focus {
