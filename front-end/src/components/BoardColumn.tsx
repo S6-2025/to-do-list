@@ -7,7 +7,8 @@
     title: string;
     tasks: Task[];
     onExpand: (task: Task) => void;
-    droppableId: string; // Adicione para usar no Droppable
+    droppableId: string; 
+     className?: string; 
   };
 
   const BoardColumn: React.FC<BoardColumnProps> = ({ title, tasks, onExpand, droppableId }) => {

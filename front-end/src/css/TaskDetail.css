@@ -11,7 +11,7 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  background-color: pink;
+  /* background-color: pink; */
   /* teste */
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
   transform: translateX(-100%);
@@ -79,7 +79,7 @@ select {
 }
 
 .task-detail-content label>textarea {
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
   min-width: 16.8rem;
 
 }
@@ -95,4 +95,17 @@ select {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.cancelled-style-option{
+ color: var(--cancelled);
+}
+.backlog-style-option{
+ color: var(--backlog);
+}
+.in_progress-style-option{
+ color: var(--inProgress);
+}
+.done-style-option{
+ color: var(--done);
 }

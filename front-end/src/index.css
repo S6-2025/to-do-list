@@ -26,13 +26,13 @@
 
   --text: #f0f0f0;
   --background: #222222;
-  --primary: #0000ff;
-  --secondary: #2e007a;
+  --primary: #9FA2B2	;
+  --secondary:#9470dba8 ;
   --accent: #a500ff;
-  --done: #009110;
-  --inProgress: #dfa700;
-  --backlog: #00958d;
-  --cancelled: #950000
+  --done: 0,128,0;       /* #009110 */
+  --inProgress: 223, 167, 0; /* #dfa700 */
+  --backlog: 0, 149, 141;    /* #00958d */
+  --cancelled: 193, 41, 46;  /* #C1292E */
 }
  
 * {

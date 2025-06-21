@@ -1,31 +1,56 @@
 .board-column {
   display: flex;
   flex-direction: column;
-  background-color: darkgreen;
-  min-height: 38rem; 
-  max-height: 38rem; 
+  /* background-color: darkgreen; */
+  min-height: 37rem;
+  max-height: 37rem;
   flex: 1 1 0;
   border-radius: 8px;
-  padding: 1rem;
+  padding: .5rem;
   overflow: hidden;
+
+  h2{
+    text-align: center;
+  }
 }
 
 .board-column-title {
   font-size: 1.9rem;
-  flex-shrink: 0;          /* evita que seja comprimido */
+  flex-shrink: 0;
+  /* evita que seja comprimido */
   margin-bottom: 0.5rem;
- 
+
 }
 
 .board-column-tasks {
-  
-  background-color: blue;
+
+  /* background-color: blue; */
   flex-grow: 1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
- 
+
   gap: 0.5rem;
-  padding-right: 0.3rem;  /* espaço p/ scroll sem cortar conteúdo */
+  padding-right: 0.3rem;
+  /* espaço p/ scroll sem cortar conteúdo */
+}
+
+.board-column:nth-child(1) {
+  background-color: rgba(var(--cancelled), 0.2);
+  border: 2px dashed var(--cancelled);
+ 
+
+}
+
+.board-column:nth-child(2) {
+  background-color: rgba(var(--backlog), 0.2);
+}
+
+.board-column:nth-child(3) {
+  background-color:rgba(var(--inProgress), 0.2);
+}
+
+.board-column:nth-child(4) {
+  background-color: rgba(var(--done), .2);
 }
