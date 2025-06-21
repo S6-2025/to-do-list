@@ -1,0 +1,8 @@
+.todo__container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color8);
+  align-items: center;
+ 
+}
+
