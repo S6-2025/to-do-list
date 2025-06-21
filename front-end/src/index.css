@@ -49,6 +49,7 @@ html, body, #root, .app-container {
 }
 
 .app-container {
+  height: 110vh;
   min-height: fit-content;
   display: flex;
   flex-direction: column;
