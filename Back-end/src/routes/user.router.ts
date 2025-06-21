@@ -1,23 +1,12 @@
 import { Router } from 'express';
 import User from '../models/user';
 import { users } from '../controllers/auth.controller';
+import { getAllUsers, getUserById } from "../controllers/user.controller"
 
 const userRouter = Router();
 
-userRouter.get('/', (req, res) => {
-    res.status(200).send({
-        users: users
-    });
-});
+userRouter.get('/', getAllUsers);
 
-userRouter.get('/:id', (req, res) => {
-    const userId = req.params.id;
-    console.log(`Buscando usuário com ID: ${userId}`);
-    // Aqui você poderia buscar o usuário no banco de dados
-    res.status(200).send({
-        mensagem: `Usuário com ID ${userId} encontrado!`
-    });
-})
-
+userRouter.get('/:id', getUserById)
 
 export default userRouter;
