@@ -1,32 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import AddTask from "../components/AddTask";
 import Board from "../components/Board";
 import { Task } from "../utils/TasksTypes";
+import { v4 as uuidv4 } from 'uuid';
 
-const Todo: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
 
+type TodoProps = {
+  tasks: Task[];
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  onUpdateTask: (updated: Task) => void;
+};
+ 
+
+const Todo: React.FC<TodoProps> = ({ tasks, setTasks, onUpdateTask }) => {
   const handleAddTask = (title: string) => {
     const newTask: Task = {
-      id: Date.now(),
+      id: uuidv4(),
       title,
       assignedTo: "",
       status: "backlog",
       startDate: "",
       endDate: "",
-      description: ""
+      description: "",
     };
     setTasks((prev) => [newTask, ...prev]);
-  };
-
-  const handleUpdateTask = (updated: Task) => {
-    setTasks(prev => prev.map(t => t.id === updated.id ? updated : t));
   };
 
   return (
     <main className="todo__container">
       <AddTask onAdd={handleAddTask} />
-      <Board tasks={tasks} setTasks={setTasks} onUpdateTask={handleUpdateTask} />
+      <Board tasks={tasks} setTasks={setTasks} onUpdateTask={onUpdateTask} />
     </main>
   );
 };

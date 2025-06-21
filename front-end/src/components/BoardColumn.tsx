@@ -1,26 +1,41 @@
-// src/components/BoardColumn.tsx
+  import React from "react";
+  import { Task } from "../utils/TasksTypes";
+  import TaskCard from "./TaskCard";
+  import { Droppable } from "react-beautiful-dnd";
 
-import React from "react";
-import { Task } from "../utils/TasksTypes";
-import TaskCard from "./TaskCard";
+  type BoardColumnProps = {
+    title: string;
+    tasks: Task[];
+    onExpand: (task: Task) => void;
+    droppableId: string; // Adicione para usar no Droppable
+  };
 
-type BoardColumnProps = {
-  title: string;
-  tasks: Task[];
-  onExpand: (task: Task) => void;
-};
-
-const BoardColumn: React.FC<BoardColumnProps> = ({ title, tasks, onExpand }) => {
-  return (
-    <div className="board-column">
-      <h2 className="board-column-title">{title}</h2>
-      <div className="board-column-tasks">
-        {tasks.map(task => (
-          <TaskCard key={task.id} task={task} onExpand={() => onExpand(task)} />
-        ))}
+  const BoardColumn: React.FC<BoardColumnProps> = ({ title, tasks, onExpand, droppableId }) => {
+    return (
+      <div className="board-column">
+        <h2 className="board-column-title">{title}</h2>
+        <Droppable droppableId={droppableId}>
+          {(provided, snapshot) => (
+            <div
+              className="board-column-tasks"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            
+            >
+              {tasks.map((task, index) => (
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  onExpand={() => onExpand(task)}
+                  index={index} // importante passar o index para o draggable
+                />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default BoardColumn;
+  export default BoardColumn;

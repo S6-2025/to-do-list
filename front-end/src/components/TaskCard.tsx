@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Task } from "../utils/TasksTypes";
+import { Draggable } from "react-beautiful-dnd";
+ 
 
 type TaskCardProps = {
   task: Task;
   onExpand: () => void;
+  index: number; // index para draggable
 };
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingAssigned, setIsEditingAssigned] = useState(false);
   const [localTask, setLocalTask] = useState({
@@ -27,49 +30,59 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand }) => {
   };
 
   return (
-    <div className="task-card__container">
-      <button className="expand-button" onClick={onExpand}>
-        ☰
-      </button>
-
-      {isEditingAssigned ? (
-        <input
-          type="text"
-          name="assignedTo"
-          value={localTask.assignedTo}
-          onChange={handleChange}
-          onBlur={() => setIsEditingAssigned(false)}
-          onKeyDown={handleKeyDown}
-          autoFocus
-        />
-      ) : (
-        <p
-          className="task-assigned"
-          onDoubleClick={() => setIsEditingAssigned(true)}
+    <Draggable draggableId={task.id.toString()} index={index}>
+      {(provided, snapshot) => (
+        <div
+          className="task-card__container"
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+         
         >
-          Responsável: {localTask.assignedTo}
-        </p>
-      )}
+          <button className="expand-button" onClick={onExpand}>
+            ☰
+          </button>
 
-      {isEditingTitle ? (
-        <input
-          type="text"
-          name="title"
-          value={localTask.title}
-          onChange={handleChange}
-          onBlur={() => setIsEditingTitle(false)}
-          onKeyDown={handleKeyDown}
-          autoFocus
-        />
-      ) : (
-        <h3
-          className="task-title"
-          onDoubleClick={() => setIsEditingTitle(true)}
-        >
-          {localTask.title}
-        </h3>
+          {isEditingAssigned ? (
+            <input
+              type="text"
+              name="assignedTo"
+              value={localTask.assignedTo}
+              onChange={handleChange}
+              onBlur={() => setIsEditingAssigned(false)}
+              onKeyDown={handleKeyDown}
+              autoFocus
+            />
+          ) : (
+            <p
+              className="task-assigned"
+              onDoubleClick={() => setIsEditingAssigned(true)}
+            >
+              Responsável: {localTask.assignedTo}
+            </p>
+          )}
+
+          {isEditingTitle ? (
+            <input
+              type="text"
+              name="title"
+              value={localTask.title}
+              onChange={handleChange}
+              onBlur={() => setIsEditingTitle(false)}
+              onKeyDown={handleKeyDown}
+              autoFocus
+            />
+          ) : (
+            <h3
+              className="task-title"
+              onDoubleClick={() => setIsEditingTitle(true)}
+            >
+              {localTask.title}
+            </h3>
+          )}
+        </div>
       )}
-    </div>
+    </Draggable>
   );
 };
 
