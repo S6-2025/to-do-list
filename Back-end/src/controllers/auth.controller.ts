@@ -3,6 +3,7 @@ import { Roles } from "../Enums/Roles";
 import User from "../models/user";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
+import { userRepository } from "../repositories/user.repository";
 
 const users: User[] = [
     new User("teste", "teste@teste.com", "123456", Roles.EMPLOYEE, 1),
@@ -40,7 +41,7 @@ const login = async (req: Request, res: Response) => {
             user: jwt.sign(
                 { id: user!.id, role: user!.role },
                 secret,
-                { expiresIn: "1h"}
+                { expiresIn: "1h" }
             )
         });
 
@@ -56,7 +57,7 @@ const register = async (req: Request, res: Response) => {
     if (!username || !email || !password || !role) {
         throw new Error("All fields are required.");
     }
-    const existingUser = users.find((user) => user.username === username || user.email === email);
+    const existingUser = await userRepository.findByEmail(email)
     if (existingUser) {
         throw new Error("Username or email already exists.");
     }
@@ -64,16 +65,26 @@ const register = async (req: Request, res: Response) => {
     //LOGICA DE CRIPTOGRAFIA DE SENHA
     const criptoPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User(username, email, criptoPassword, role, users.length + 1);
-    users.push(newUser);
-    res.status(201).send({
-        message: "User registered successfully!",
-        user: jwt.sign(
-            { id: newUser.id, role: newUser.role },
+    const newUser = new User(username, email, criptoPassword, role);
+
+    try {
+        console.log(userRepository.create(newUser))
+        const token = jwt.sign(
+            { username: newUser.username, role: newUser.role },
             secret,
-            { expiresIn: "1h" }
+            { expiresIn: "2h" }
         )
-    });
+        res.status(201).send({ message: "User created successfully!", token: token });
+    } catch (error) {
+        console.error("Error creating user:", error);
+        res.status(500).send({
+            message: "An error occurred while creating the user."
+        });
+
+    }
+
+
+
 }
 
 export { login, register, users };
