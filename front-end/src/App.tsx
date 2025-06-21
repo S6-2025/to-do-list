@@ -19,7 +19,7 @@ import React, { useEffect, useState } from "react";
 
 const AppContent: React.FC = () => {
   const location = useLocation();
-  const shouldShowHeader = location.pathname !== "/login";
+ 
 
  const [tasks, setTasks] = useState<Task[]>(() => {
   const saved = localStorage.getItem("tasks");
@@ -56,7 +56,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="app-container">
-      {shouldShowHeader && <Header />}
+     <Header isHidden={location.pathname === "/login"} />
       <div className="main-content">
         {tasks !== null && (
           <AppRoutes tasks={tasks} setTasks={setTasks} onUpdateTask={handleUpdateTask} />

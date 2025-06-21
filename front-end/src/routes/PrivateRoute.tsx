@@ -1,19 +1,19 @@
-import type { JSX } from "react";
-import React from "react";
-import { Navigate } from "react-router-dom";
+// import type { JSX } from "react";
+// import React from "react";
+// import { Navigate } from "react-router-dom";
 
-interface PrivateRouteProps {
-  children: JSX.Element;
-}
+// interface PrivateRouteProps {
+//   children: JSX.Element;
+// }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-  const token = sessionStorage.getItem("token");
+// const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+//   const token = sessionStorage.getItem("token");
 
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
+//   if (!token) {
+//     return <Navigate to="/login" replace />;
+//   }
 
-  return children;
-};
+//   return children;
+// };
 
-export default PrivateRoute;
+// export default PrivateRoute;

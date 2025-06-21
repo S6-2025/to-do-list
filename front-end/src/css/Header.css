@@ -8,6 +8,11 @@
   padding: 0 1rem;
 }
 
+.header--hidden {
+  visibility: hidden; /* invisível, mas ocupa espaço */
+  
+}
+
 .logo-container-header {
   height: 100%;
   display: flex;

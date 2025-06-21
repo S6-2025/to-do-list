@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+type HeaderProps = {
+  isHidden?: boolean;
+};
+const Header: React.FC<HeaderProps> = ({ isHidden = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className=" header__container">
+    <header className={`header__container ${isHidden ? "header--hidden" : ""}`}>
       <div className="logo-container-header">
         <Link to="/" className="logo-header">
           <svg className="header__SVG">
