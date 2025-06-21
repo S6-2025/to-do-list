@@ -9,7 +9,11 @@
   padding: .5rem;
   overflow: hidden;
 
-  h2{
+  box-shadow: 0px -1px 1px;
+  background-color: rgba(245, 245, 245, 0.041);
+  transition: color 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+
+  h2 {
     text-align: center;
   }
 }
@@ -36,21 +40,26 @@
   /* espaço p/ scroll sem cortar conteúdo */
 }
 
-.board-column:nth-child(1) {
-  background-color: rgba(var(--cancelled), 0.2);
-  border: 2px dashed var(--cancelled);
- 
 
+
+.board-column:nth-child(1) {
+
+
+  color: rgba(var(--cancelled), 0.6);
+  border: 2px dashed var(--cancelled);
+
+ 
 }
 
+
 .board-column:nth-child(2) {
-  background-color: rgba(var(--backlog), 0.2);
+  color: rgba(var(--backlog), 0.6);
 }
 
 .board-column:nth-child(3) {
-  background-color:rgba(var(--inProgress), 0.2);
+  color: rgba(var(--inProgress), 0.6);
 }
 
 .board-column:nth-child(4) {
-  background-color: rgba(var(--done), .2);
+  color: rgba(var(--done), .6);
 }

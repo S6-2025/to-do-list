@@ -29,15 +29,16 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
     }
   };
 
+  const statusClass = `taskcard-${task.status}`;
+
   return (
     <Draggable draggableId={task.id.toString()} index={index}>
       {(provided, snapshot) => (
         <div
-          className="task-card__container"
+          className={`task-card__container ${statusClass}`}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-         
         >
           <button className="expand-button" onClick={onExpand}>
             ☰
@@ -85,5 +86,6 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
     </Draggable>
   );
 };
+
 
 export default TaskCard;
