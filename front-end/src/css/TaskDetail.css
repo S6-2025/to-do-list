@@ -1,0 +1,111 @@
+.task-detail__container {
+
+  position: absolute;
+  /* importante para posicionar relativo ao pai */
+  top: 0;
+  left: 0;
+  /* corrigir left: 1 para left: 0 (unidade faltando) */
+  width: 20%;
+  /* ocupa 20% da largura do pai */
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* background-color: pink; */
+  /* teste */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  transform: translateX(-100%);
+  /* posição visível inicial */
+  transition: transform .45s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 1000;
+
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 1rem;
+
+
+}
+
+/* Painel abre: mantém a posição original */
+.task-detail__container.opening {
+  transform: translateX(0);
+}
+
+/* Painel fecha: esconde para a esquerda */
+.task-detail__container.closing {
+  transition: transform .45s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: translateX(-100%);
+}
+
+/* Empurra o conteúdo para direita enquanto painel aberto */
+.board__container.panel-open .board-columns__container {
+  margin-left: 20%;
+  /* deve ser igual à largura do painel */
+}
+
+
+
+.close-panel {
+  justify-self: end;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.task-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.task-detail-content label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  border-inline: none;
+
+}
+
+
+
+.task-detail-content label>input,
+select {
+
+  height: 1.8rem;
+
+}
+
+.task-detail-content label>textarea {
+  /* background-color: aquamarine; */
+  min-width: 16.8rem;
+
+}
+
+
+
+.save-button {
+  width: 100%;
+  padding: 0.5rem;
+  font-weight: bold;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancelled-style-option{
+ color: var(--cancelled);
+}
+.backlog-style-option{
+ color: var(--backlog);
+}
+.in_progress-style-option{
+ color: var(--inProgress);
+}
+.done-style-option{
+ color: var(--done);
+}
