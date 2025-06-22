@@ -19,7 +19,7 @@ import static java.util.Map.entry;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
@@ -39,8 +39,12 @@ public class AuthService {
             throw new RuntimeException("User already registered");
         }
 
-        User newUser = new User(registerData.name(), registerData.email(), registerData.password(), registerData.role());
-
+        User newUser = new User(
+                registerData.name(),
+                registerData.email(),
+                passwordEncoder.encode(registerData.password()),
+                registerData.role()
+        );
         userRepository.save(newUser);
         return tokenService.generateToken(newUser);
     }

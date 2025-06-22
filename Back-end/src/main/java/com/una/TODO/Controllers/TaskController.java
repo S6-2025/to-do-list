@@ -47,7 +47,9 @@ public class TaskController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('PO') OR hasRole('SM')")
+
     public ResponseEntity<Object> createTask(@RequestBody CreateTaskDTO task){
+        System.out.println("Chamei o create de task");
         try{
             return ResponseEntity.ok(service.createTask(task));
         }catch (RuntimeException e){
