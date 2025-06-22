@@ -41,16 +41,16 @@ public class UserService {
 
 }
 @RequiredArgsConstructor
-class UserMapper{
-    public static UserDTO mapUser(User user) {
-        return new UserDTO(
-                user.getName(),
-                user.getEmail(),
-                user.getRole(),
-                user.getTasks()
-        );
+    class UserMapper{
+        public static UserDTO mapUser(User user) {
+            return new UserDTO(
+                    user.getName(),
+                    user.getEmail(),
+                    user.getRole(),
+                    user.getTasks()
+            );
 
-    }
+        }
 
     public static User checkAndUpdateFields(User user, UpdateUserDTO updateData, PasswordEncoder passwordEncoder){
         Field[] fields = updateData.getClass().getFields();
@@ -80,7 +80,7 @@ class UserMapper{
 
 
             }catch (Exception e){
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
         return user;

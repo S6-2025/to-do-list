@@ -1,8 +1,10 @@
 package com.una.TODO.Controllers;
 
 import com.una.TODO.DTO.CreateTaskDTO;
+import com.una.TODO.DTO.TaskResponseDTO;
 import com.una.TODO.DTO.UpdateTaskDTO;
 import com.una.TODO.Models.Task;
+import com.una.TODO.Mapper.TaskMapper;
 import com.una.TODO.Service.TaskService;
 import lombok.RequiredArgsConstructor;
 import java.util.UUID;
@@ -22,18 +24,21 @@ public class TaskController {
     private final TaskService service;
 
     @GetMapping("/all")
-    public ResponseEntity<Object> getAllTasks(){
-        try{
+    public ResponseEntity<Object> getAllTasks() {
+        try {
             List<Task> tasks = service.getTasks();
-            return ResponseEntity.ok(Map.ofEntries(
-                    Map.entry("tasks", tasks)
-            ));
-        }catch (RuntimeException e){
+            List<TaskResponseDTO> taskDTOs = tasks.stream()
+                    .map(TaskMapper::toDTO)
+                    .toList();
+
+            return ResponseEntity.ok(Map.of("tasks", taskDTOs));
+        } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(e.getMessage());
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(500).body("An unexpected error occurred!");
         }
     }
+
     @GetMapping("/")
     public ResponseEntity<Object> getTasksByOwner(@RequestParam(name = "email")String email){
         try{

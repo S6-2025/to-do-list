@@ -2,6 +2,7 @@ package com.una.TODO.Service;
 
 import com.una.TODO.DTO.CreateTaskDTO;
 import com.una.TODO.DTO.UpdateTaskDTO;
+import com.una.TODO.Mapper.TaskMapper;
 import com.una.TODO.Models.Task;
 import com.una.TODO.Models.User;
 import com.una.TODO.Repository.TaskRepository;
@@ -9,7 +10,6 @@ import com.una.TODO.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-//import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +45,7 @@ public class TaskService {
     }
 
     public String createTask(CreateTaskDTO task){
-        taskRepository.save(TaskMapper.mapTask(task));
+        taskRepository.save(TaskMapper.mapTask(task,userRepository));
         return "Task created successfully";
     }
 
@@ -67,30 +67,6 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
-
-
-}
-class TaskMapper{
-    public static Task mapTask(CreateTaskDTO taskDTO){
-        return new Task(
-                taskDTO.title(),
-                taskDTO.description(),
-                taskDTO.startDate(),
-                taskDTO.endDate(),
-                taskDTO.priority(),
-                taskDTO.status()
-        );
-
-    }
-
-    public static void updateTaskFromDTO(Task existingTask, UpdateTaskDTO dto) {
-        if (dto.title() != null) existingTask.setTitle(dto.title());
-        if (dto.description() != null) existingTask.setDescription(dto.description());
-        if (dto.startDate() != null) existingTask.setStartDate(dto.startDate());
-        if (dto.endDate() != null) existingTask.setEndDate(dto.endDate());
-        if (dto.priority() != null) existingTask.setPriority(dto.priority());
-        if (dto.status() != null) existingTask.setStatus(dto.status());
-    }
 
 
 }
