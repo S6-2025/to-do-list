@@ -6,6 +6,7 @@ import com.una.TODO.Service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,4 +59,15 @@ public class TaskController {
             return ResponseEntity.status(500).body("An unexpected error occurred!");
         }
     }
+
+
+    @GetMapping("/check-role")
+    public ResponseEntity<Object> checkRole() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Auth: " + auth);
+        if (auth == null) return ResponseEntity.status(401).body("Não autenticado");
+
+        return ResponseEntity.ok(auth.getAuthorities());
+    }
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.UUID;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -40,11 +41,16 @@ public class SecurityFilter extends OncePerRequestFilter {
         }
 
         String token = recoverToken(request);
-        String login = tokenService.validateToken(token);
+        String userId = tokenService.validateToken(token);
 
-        if (login != null) {
-            User user = userRepository.findUserByEmail(login)
+        if (userId != null) {
+            User user = userRepository.findById(UUID.fromString(userId))
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+
+            String role = user.getRole().toString().toUpperCase();
+            System.out.println("Usuário autenticado com role: " + role); // <-- ADICIONE ISSA LINHA
+
 
             var authorities = Collections.singletonList(
                     new SimpleGrantedAuthority("ROLE_" + user.getRole().toString().toUpperCase())
