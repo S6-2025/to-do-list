@@ -1,6 +1,7 @@
 package com.una.TODO.Service;
 
 import com.una.TODO.DTO.CreateTaskDTO;
+import com.una.TODO.DTO.UpdateTaskDTO;
 import com.una.TODO.Models.Task;
 import com.una.TODO.Models.User;
 import com.una.TODO.Repository.TaskRepository;
@@ -8,7 +9,7 @@ import com.una.TODO.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
+//import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -48,12 +49,16 @@ public class TaskService {
         return "Task created successfully";
     }
 
-    public Task updateTask(UUID taskId, Task updatedData){
+    public Task updateTask(UUID taskId, UpdateTaskDTO dto) {
         Task existingTask = taskRepository.findTaskById(taskId)
                 .orElseThrow(() -> new RuntimeException("Task not found!"));
 
-        return TaskMapper.checkAndUpdateFields(existingTask, updatedData);
+        TaskMapper.updateTaskFromDTO(existingTask, dto);
+
+        return taskRepository.save(existingTask);
     }
+
+
 
     public void deleteTask(UUID taskId){
         Task task = taskRepository.findTaskById(taskId)
@@ -78,30 +83,14 @@ class TaskMapper{
 
     }
 
-    public static Task checkAndUpdateFields(Task existingTask, Task updateData) {
-        Field[] fields = updateData.getClass().getFields();
-
-        for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-                Object value = field.get(updateData);
-
-                if (value != null) {
-                    String fieldName = field.getName();
-                    try {
-                        Field userField = existingTask.getClass().getDeclaredField(fieldName);
-                        userField.setAccessible(true);
-                        userField.set(existingTask, value);
-                        userField.setAccessible(false);
-                    } catch (NoSuchFieldException e) {
-                        System.out.println("Field doesnt exist in User class!");
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-        return existingTask;
+    public static void updateTaskFromDTO(Task existingTask, UpdateTaskDTO dto) {
+        if (dto.title() != null) existingTask.setTitle(dto.title());
+        if (dto.description() != null) existingTask.setDescription(dto.description());
+        if (dto.startDate() != null) existingTask.setStartDate(dto.startDate());
+        if (dto.endDate() != null) existingTask.setEndDate(dto.endDate());
+        if (dto.priority() != null) existingTask.setPriority(dto.priority());
+        if (dto.status() != null) existingTask.setStatus(dto.status());
     }
+
+
 }

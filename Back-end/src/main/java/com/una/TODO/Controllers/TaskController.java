@@ -1,9 +1,11 @@
 package com.una.TODO.Controllers;
 
 import com.una.TODO.DTO.CreateTaskDTO;
+import com.una.TODO.DTO.UpdateTaskDTO;
 import com.una.TODO.Models.Task;
 import com.una.TODO.Service.TaskService;
 import lombok.RequiredArgsConstructor;
+import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,7 +50,6 @@ public class TaskController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('PO') OR hasRole('SM')")
-
     public ResponseEntity<Object> createTask(@RequestBody CreateTaskDTO task){
         System.out.println("Chamei o create de task");
         try{
@@ -60,6 +61,39 @@ public class TaskController {
         }
     }
 
+
+//    delete:
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('PO') OR hasRole('SM')")
+    public ResponseEntity<Object> deleteTask(@PathVariable UUID id) {
+        try {
+            service.deleteTask(id);
+            return ResponseEntity.ok("Task deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An unexpected error occurred!");
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('PO') OR hasRole('SM')")
+    public ResponseEntity<Object> updateTask(@PathVariable UUID id, @RequestBody UpdateTaskDTO dto) {
+        try {
+            Task updated = service.updateTask(id, dto);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An unexpected error occurred!");
+        }
+    }
+
+
+
+
+//    Testando o catch de role:
 
     @GetMapping("/check-role")
     public ResponseEntity<Object> checkRole() {
