@@ -19,7 +19,6 @@ import "./css/TaskDetail.css";
 import "./css/AddTask.css";
 import "./css/Login.css";
 import "./css/Profile.css";
-
 import "./css/Register.css";
 import "./css/ModalWrapper.css";
 
@@ -29,6 +28,7 @@ const AppContent: React.FC = () => {
 
   const shouldShowHeader = location.pathname !== "/login";
   const shouldShowFooter = location.pathname !== "/login";
+
   const token = sessionStorage.getItem("token");
   if (token) {
     setAuthToken(token);
@@ -73,7 +73,16 @@ const AppContent: React.FC = () => {
 
       {/* Rotas principais (usa backgroundLocation se estiver abrindo modal) */}
       <Routes location={state?.backgroundLocation || location}>
-        <Route path="/*" element={<AppRoutes />} />
+        <Route
+          path="/*"
+          element={
+            <AppRoutes
+              tasks={tasks}
+              setTasks={setTasks}
+              onUpdateTask={handleUpdateTask}
+            />
+          }
+        />
       </Routes>
 
       {/* Rota de modal (ex: /register) */}
@@ -91,17 +100,6 @@ const AppContent: React.FC = () => {
       )}
 
       {shouldShowFooter && <Footer />}
-      <Header isHidden={location.pathname === "/login"} />
-      <div className="main-content">
-        {tasks !== null && (
-          <AppRoutes
-            tasks={tasks}
-            setTasks={setTasks}
-            onUpdateTask={handleUpdateTask}
-          />
-        )}
-      </div>
-      <Footer />
     </div>
   );
 };
