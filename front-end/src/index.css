@@ -12,12 +12,7 @@
   color: var(--text-todo);
   background-color: var(--background-todo);
 
-  --text: #d9d3d9;
-  --background: #2a202a;
-  --background2: #05002e;
-  --primary: #5f80a6;
-  --secondary: #823e69;
-  --accent: #6f975e;
+
   color: var(--text);
   background-color: var(--background);
 
@@ -30,14 +25,19 @@
   --font-read: "Roboto", sans-serif;
   --font-logo: "Libre Bodoni", serif;
   
-  --text: #f0f0f0;
+  /*! Cores originais */
+  /* --text: #f0f0f0;
   --background: #2d2d2d;
-  --background2: #05002e;
-  --primary: #0000ff;
   --primary: #0000ff;
   --secondary: #2e007a;
-  --accent: #a500ff;
+  --accent: #a500ff; */
 
+  /*! Cores Vini */
+  --text: #d9d3d9;
+  --background: #2a202a;
+  --primary: #5f80a6;
+  --secondary: #823e69;
+  --accent: #6f975e;
 
   /*  TODO:: */
 
@@ -52,7 +52,7 @@
   --cancelled: 193, 41, 46;  /* #C1292E */
 }
 
- 
+
 * {
   margin: 0;
   padding: 0;
