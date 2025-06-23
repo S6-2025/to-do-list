@@ -3,6 +3,9 @@ import { Routes, Route } from "react-router-dom";
 
 import Todo from "../pages/Todo";
 import Login from "../pages/Login";
+import Landing from "../pages/Landing";
+// import Profile from "../pages/Profile";
+import PrivateRoute from "../routes/PrivateRoute";
 import { Task } from "../utils/TasksTypes";
 
 type AppRoutesProps = {
@@ -18,7 +21,11 @@ const AppRoutes: React.FC<AppRoutesProps> = ({ tasks, setTasks, onUpdateTask }) 
       <Route path="/" element={<Todo />} />
       <Route path="/register" element={<Register />}/>
       <Route path="/login" element={<Login />} />
-      <Route path="/todo" element={<Todo tasks={tasks} setTasks={setTasks} onUpdateTask={onUpdateTask} />}/>
+      <Route path="/landing" element={<Landing />} />
+      <Route
+        path="/todo"
+        element={<Todo tasks={tasks} setTasks={setTasks} onUpdateTask={onUpdateTask} />}
+      />
     </Routes>
   );
 };

@@ -1,20 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddTask from "../components/AddTask";
 import Board from "../components/Board";
-import { Task, TaskStatus, TaskPriority } from "../utils/TasksTypes";
+import { Task, TaskPriority, TaskStatus } from "../utils/TasksTypes";
 import { useAuth } from "../context/AuthContext";
-import { createTask } from "../services/taskService";
+import { createTask, getAllTasks, updateTask } from "../services/taskService";
 
-type TodoProps = {
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-  onUpdateTask: (updated: Task) => void;
+const Todo: React.FC = () => {
+const { role, token, email } = useAuth();
+
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+   
+const fetchTasks = async () => {
+  try {
+    const tasksFromApi = await getAllTasks();
+    setTasks(tasksFromApi);
+  } catch (error) {
+    console.error("Erro ao buscar tasks: ", error);
+  }
 };
 
-const Todo: React.FC<TodoProps> = ({ tasks, setTasks, onUpdateTask }) => {
-  const { role, token } = useAuth();
-console.log("Current user role:", role);
+useEffect(() => {
+  fetchTasks();
+}, []);
 
+  // Função para adicionar task
   const handleAddTask = async (task: {
     title: string;
     description: string;
@@ -24,11 +34,9 @@ console.log("Current user role:", role);
     status: TaskStatus;
     ownerEmail: string;
   }) => {
-    try {
-      if (!token) return;
+    if (!token) return;
 
-      // Aqui você deixa o backend verificar role via token,
-      // e recebe ownerEmail do objeto task para definir o dono da task
+    try {
       const savedTask = await createTask(task);
       setTasks((prev) => [savedTask, ...prev]);
     } catch (err) {
@@ -37,16 +45,28 @@ console.log("Current user role:", role);
     }
   };
 
+  // Atualiza task localmente e envia para backend
+  const handleUpdateTask = async (updatedTask: Task) => {
+    try {
+      await updateTask(updatedTask.id.toString(), updatedTask);
+      setTasks((prev) =>
+        prev.map((task) => (task.id === updatedTask.id ? updatedTask : task))
+      );
+    } catch (error) {
+      console.error("Erro ao atualizar task:", error);
+      alert("Erro ao atualizar tarefa");
+    }
+  };
+  
+
   return (
     <main className="todo__container">
-      {/* Só mostra AddTask para PO e SM */}
       {role !== "EMPLOYEE" && <AddTask onAdd={handleAddTask} />}
 
-      {/* Passa prop para Board informar se usuário pode editar */}
       <Board
         tasks={tasks}
         setTasks={setTasks}
-        onUpdateTask={onUpdateTask}
+        onUpdateTask={handleUpdateTask}
         canEdit={role !== "EMPLOYEE"}
       />
     </main>

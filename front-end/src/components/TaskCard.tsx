@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import { Task } from "../utils/TasksTypes";
-import { Draggable } from "react-beautiful-dnd";
+import { useDraggable } from "@dnd-kit/core";
 
-type TaskCardProps = {
+interface TaskCardProps {
   task: Task;
   onExpand: () => void;
-  index: number; // index para draggable
+  index: number;
   canEdit: boolean;
-};
+}
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index, canEdit }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingAssigned, setIsEditingAssigned] = useState(false);
+
   const [localTask, setLocalTask] = useState({
     title: task.title,
     ownerEmail: task.ownerEmail,
+  });
+
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: task.id.toString(),
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,66 +34,73 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
     }
   };
 
-  const statusClass = `taskcard-${task.status}`;
+  const statusClass = `taskcard-${task.status.toLowerCase()}`;
+  const style = transform
+    ? { transform: `translate(${transform.x}px, ${transform.y}px)` }
+    : undefined;
 
   return (
-    <Draggable draggableId={task.id.toString()} index={index}>
-      {(provided) => (
-        <div
-          className={`task-card__container ${statusClass}`}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <button className="expand-button" onClick={onExpand}>
-            ☰
-          </button>
+    <div
+      className={`task-card__container ${statusClass}`}
+      ref={setNodeRef}
+      style={style}
+    >
+      {/* Botão expand fica fora da área "arrastável" */}
+      <button
+        className="expand-button"
+        onClick={(e) => {
+          e.stopPropagation(); // evita conflito com drag
+          onExpand();
+        }}
+      >
+        ☰
+      </button>
 
-          {isEditingAssigned ? (
-            <input
-              type="text"
-              name="ownerEmail"
-              value={localTask.ownerEmail}
-              onChange={handleChange}
-              onBlur={() => setIsEditingAssigned(false)}
-              onKeyDown={handleKeyDown}
-              autoFocus
-            />
-          ) : (
-            <p
-              className="task-assigned"
-              onDoubleClick={() => setIsEditingAssigned(true)}
-            >
-              Responsável: {localTask.ownerEmail}
-            </p>
-          )}
-
-          {isEditingTitle ? (
-            <input
-              type="text"
-              name="title"
-              value={localTask.title}
-              onChange={handleChange}
-              onBlur={() => setIsEditingTitle(false)}
-              onKeyDown={handleKeyDown}
-              autoFocus
-            />
-          ) : (
-            <h3
-              className="task-title"
-              onDoubleClick={() => setIsEditingTitle(true)}
-            >
-              {localTask.title}
-            </h3>
-          )}
-
-          {/* Exibe a prioridade */}
-          <p className={`task-priority task-priority-${task.priority.toLowerCase()}`}>
-            Priority: {task.priority}
+      {/* Área arrastável */}
+      <div {...listeners} {...attributes} style={{ cursor: "grab" }}>
+        {canEdit && isEditingAssigned ? (
+          <input
+            type="text"
+            name="ownerEmail"
+            value={localTask.ownerEmail}
+            onChange={handleChange}
+            onBlur={() => setIsEditingAssigned(false)}
+            onKeyDown={handleKeyDown}
+            autoFocus
+          />
+        ) : (
+          <p
+            className="task-assigned"
+            onDoubleClick={() => canEdit && setIsEditingAssigned(true)}
+          >
+            {localTask.ownerEmail}
           </p>
-        </div>
-      )}
-    </Draggable>
+        )}
+
+        {canEdit && isEditingTitle ? (
+          <input
+            type="text"
+            name="title"
+            value={localTask.title}
+            onChange={handleChange}
+            onBlur={() => setIsEditingTitle(false)}
+            onKeyDown={handleKeyDown}
+            autoFocus
+          />
+        ) : (
+          <h3
+            className="task-title"
+            onDoubleClick={() => canEdit && setIsEditingTitle(true)}
+          >
+            {localTask.title}
+          </h3>
+        )}
+
+        <p className={`task-priority task-priority-${task.priority.toLowerCase()}`}>
+          {task.priority}
+        </p>
+      </div>
+    </div>
   );
 };
 

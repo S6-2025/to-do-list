@@ -41,8 +41,10 @@
 }
 
 .expand-button {
+
   grid-area: expand;
-  background: transparent;
+  width: 4rem;
+  background: black;
   border: none;
   font-size: 1.2rem;
   cursor: pointer;

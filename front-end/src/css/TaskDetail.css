@@ -109,3 +109,33 @@ select {
 .done-style-option{
  color: var(--done);
 }
+
+.task-detail-header {
+  display: flex;
+  justify-content: space-between; /* Alinha à esquerda */
+  gap: 0.5rem; /* Espaçamento entre os botões */
+  margin-bottom: 1rem;
+ 
+}
+
+
+.delete-button,
+.close-panel {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  color: #555;
+  transition: color 0.3s ease;
+}
+.close-panel{
+  font-size: 2rem;
+}
+.delete-button:hover {
+  color: red; /* Cor para lixeira ao passar mouse */
+}
+
+.close-panel:hover {
+  color: #000; /* Cor para fechar ao passar mouse */
+}

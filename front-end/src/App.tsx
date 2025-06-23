@@ -18,6 +18,7 @@ import "./css/TaskCard.css";
 import "./css/TaskDetail.css";
 import "./css/AddTask.css";
 import "./css/Login.css";
+import "./css/Profile.css";
 
 import "./css/Register.css";
 import "./css/ModalWrapper.css";

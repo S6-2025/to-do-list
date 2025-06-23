@@ -1,23 +1,32 @@
-// src/routes/PrivateRoute.tsx
-import { JSX } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { JSX } from "react";
 
-interface Props {
+interface PrivateRouteProps {
   children: JSX.Element;
   allowedRoles?: string[];
 }
 
-export default function PrivateRoute({ children, allowedRoles }: Props) {
+export default function PrivateRoute({ children, allowedRoles }: PrivateRouteProps) {
   const { token, role } = useAuth();
 
+  // Enquanto carrega estado auth (se quiser implementar async), pode retornar null ou spinner
+  if (token === null) {
+    // Aqui pode ter um estado de carregamento se desejar
+    return null;
+  }
+
   if (!token) {
-    return <Navigate to="/login" />;
+    // Se não está logado, redireciona para landing
+    return <Navigate to="/landing" replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(role!)) {
-    return <Navigate to="/unauthorized" />; // página que você pode criar
+  if (allowedRoles && role && !allowedRoles.includes(role)) {
+    // Se role não autorizada, redireciona para página de acesso negado
+    return <Navigate to="/unauthorized" replace />;
   }
 
+  // Se tudo ok, renderiza o conteúdo
   return children;
 }

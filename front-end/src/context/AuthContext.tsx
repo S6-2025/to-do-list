@@ -1,16 +1,21 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import jwtDecode from "jwt-decode";
+import { decodeJwt } from "jose";
+
 import { setAuthToken } from "../services/Api";
 
 type Role = "PO" | "SM" | "EMPLOYEE";
 
 interface JwtPayload {
-  role: Role;
+  authorities?: string[];
+  roles?: string[];
+  role?: string;
+  // outros campos que seu token possa ter...
 }
 
 interface AuthContextType {
   token: string | null;
   role: Role | null;
+  email: string | null;  // adiciona email aqui
   setToken: (token: string) => void;
   logout: () => void;
 }
@@ -20,6 +25,11 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setTokenState] = useState<string | null>(null);
   const [role, setRole] = useState<Role | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+
+  const decodeToken = (token: string): JwtPayload => {
+    return decodeJwt(token);
+  };
 
   useEffect(() => {
     const savedToken = sessionStorage.getItem("token");
@@ -29,18 +39,68 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const applyToken = (token: string) => {
+    console.log("Applying token:", token);
+    
+
+    if (!token || token.trim() === "") {
+      console.warn("Empty or invalid token passed to applyToken");
+      setRole(null);
+      setTokenState(null);
+      sessionStorage.removeItem("token");
+      setAuthToken("");
+      return;
+    }
+
     setTokenState(token);
     sessionStorage.setItem("token", token);
     setAuthToken(token);
 
     try {
-      const decoded = (jwtDecode as any).default(token);
+      const decoded = decodeToken(token);
+      console.log("Decoded JWT full payload:", decoded);
 
-      setRole(decoded.role || null);
+      const roleString = decoded.role;
+
+      const roleMap: Record<string, Role> = {
+        ROLE_PO: "PO",
+        ROLE_SM: "SM",
+        ROLE_EMPLOYEE: "EMPLOYEE",
+      };
+
+      const mappedRole = roleString ? roleMap[roleString] || null : null;
+      console.log("Role string from token:", roleString);
+      console.log("Mapped role:", mappedRole);
+
+      setRole(mappedRole);
     } catch (error) {
       console.error("Invalid token:", error);
       setRole(null);
     }
+  
+    try {
+    const decoded = decodeToken(token);
+    console.log("Decoded JWT full payload:", decoded);
+
+    const roleString = decoded.role;
+    const roleMap: Record<string, Role> = {
+      ROLE_PO: "PO",
+      ROLE_SM: "SM",
+      ROLE_EMPLOYEE: "EMPLOYEE",
+    };
+
+    const mappedRole = roleString ? roleMap[roleString] || null : null;
+    setRole(mappedRole);
+
+    // Extrai email do token, normalmente está no campo 'sub' ou 'email'
+    const emailFromToken = (decoded as any).email || (decoded as any).sub || null;
+    setEmail(emailFromToken);
+
+  } catch (error) {
+    console.error("Invalid token:", error);
+    setRole(null);
+    setEmail(null);
+  }
+  
   };
 
   const setToken = (token: string) => {
@@ -51,10 +111,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     sessionStorage.removeItem("token");
     setTokenState(null);
     setRole(null);
+    setAuthToken("");
   };
 
   return (
-    <AuthContext.Provider value={{ token, role, setToken, logout }}>
+ <AuthContext.Provider value={{ token, role, email, setToken, logout }}>
       {children}
     </AuthContext.Provider>
   );
