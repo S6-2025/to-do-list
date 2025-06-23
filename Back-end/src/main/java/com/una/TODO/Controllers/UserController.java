@@ -7,6 +7,7 @@ import com.una.TODO.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -38,18 +39,22 @@ public class UserController {
     }
 
     @PatchMapping("/user")
-    public ResponseEntity<Object> updateUser(@RequestParam(name="email") String email,  @RequestBody UpdateUserDTO updateData) {
-        try{
-            String tokenUpdated = service.updateUser(email, updateData);
-            return ResponseEntity.ok(Map.ofEntries(Map.entry("token", tokenUpdated)));
-        }catch (RuntimeException e){
+    public ResponseEntity<Object> updateUser(@RequestBody UpdateUserDTO updateData) {
+        try {
+            User authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String authenticatedEmail = authenticatedUser.getEmail();
+            System.out.println("Usuário autenticado: " + authenticatedEmail);
+
+            String tokenUpdated = service.updateUser(authenticatedEmail, updateData);
+            return ResponseEntity.ok(Map.of("token", tokenUpdated));
+        } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(e.getMessage());
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body("An unexpected error occurred!");
         }
     }
+
 
     @DeleteMapping("/user")
     @PreAuthorize("hasRole('PO') OR hasRole('SM')")
