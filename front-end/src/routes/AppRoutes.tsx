@@ -4,9 +4,10 @@ import { Routes, Route } from "react-router-dom";
 import Todo from "../pages/Todo";
 import Login from "../pages/Login";
 import Landing from "../pages/Landing";
-// import Profile from "../pages/Profile";
+import Profile from "../pages/Profile";
 import PrivateRoute from "../routes/PrivateRoute";
 import { Task } from "../utils/TasksTypes";
+import PublicRoute from "./PublicRoute";
 
 type AppRoutesProps = {
   tasks: Task[];
@@ -29,14 +30,15 @@ const AppRoutes: React.FC<AppRoutesProps> = ({ tasks, setTasks, onUpdateTask }) 
         }
       />
 
-      {/* <Route
-        path="/profile"
-        element={
-          <PrivateRoute>
-            <Profile />
-          </PrivateRoute>
-        }
-      /> */}
+  <Route
+  path="/profile"
+  element={
+    <PrivateRoute>
+      <Profile />
+    </PrivateRoute>
+  }
+/>
+
 
       {/* Redirecionar qualquer rota não mapeada para landing */}
       <Route path="*" element={<Landing />} />

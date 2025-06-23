@@ -10,7 +10,7 @@ const Header: React.FC<HeaderProps> = ({ isHidden = false }) => {
   return (
     <header className={`header__container ${isHidden ? "header--hidden" : ""}`}>
       <div className="logo-container-header">
-        <Link to="/" className="logo-header">
+        <Link to="/todo" className="logo-header">
           <svg className="header__SVG">
             <use xlinkHref="/icons.svg#plus" />
           </svg>

@@ -1,236 +1,218 @@
-// import React, { useEffect, useState } from "react";
-// import { useAuth } from "../context/AuthContext";
-// import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-// import { getUserByEmail , updateUser, deleteUser } from "../services/userService";
+import { getCurrentUser, updateUser, deleteUser } from "../services/userService";
 
-// interface UserDTO {
-//   name: string;
-//   email: string;
-//   role: "PO" | "SM" | "EMPLOYEE";
-// }
+const Profile: React.FC = () => {
+  const [user, setUser] = useState<{ name: string; email: string; role: string }>({ name: "", email: "", role: "" });
+  const { email, logout } = useAuth();
+  const navigate = useNavigate();
 
-// const Profile: React.FC = () => {
-//   const { token, role, logout } = useAuth();
-//   const navigate = useNavigate();
+  const [editInfo, setEditInfo] = useState(false);
+  const [editPassword, setEditPassword] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmDeleteStepTwo, setConfirmDeleteStepTwo] = useState(false);
+  const [loggedOut, setLoggedOut] = useState(false);
 
-//   const [user, setUser] = useState<UserDTO | null>(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState<string | null>(null);
+  // Dados do usuário
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  
+  // Senhas para editar
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
-//   const [editInfo, setEditInfo] = useState(false);
-//   const [editPassword, setEditPassword] = useState(false);
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const userData = await getCurrentUser();
+      setUser(userData);
+      setName(userData.name);
+      setRole(userData.role);
+      setUserEmail(userData.email);
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    }
+  };
+  fetchUser();
+}, []);
 
-//   const [name, setName] = useState("");
 
-//   const [currentPassword, setCurrentPassword] = useState("");
-//   const [newPassword, setNewPassword] = useState("");
+  const handleLogout = () => {
+    logout();
+    setLoggedOut(true);
+    navigate("/login");
+  };
 
-//   const [confirmDelete, setConfirmDelete] = useState(false);
-//   const [confirmDeleteStepTwo, setConfirmDeleteStepTwo] = useState(false);
+const handleSaveInfo = async () => {
+  if (!name || !userEmail) {
+    alert("Name and Email cannot be empty");
+    return;
+  }
+  try {
+    await updateUser({ name, email: userEmail });
+    alert("User info updated successfully");
+    setEditInfo(false);
+  } catch (err: any) {
+    alert("Failed to update user info: " + err.message);
+  }
+};
 
-//   // Função para extrair userId do token
-//   const getUserIdFromToken = (): string | null => {
-//     if (!token) return null;
-//     try {
-//       const payload = JSON.parse(atob(token.split(".")[1]));
-//       return payload.sub || null; // assuming 'sub' contains userId
-//     } catch {
-//       return null;
-//     }
-//   };
 
-//   useEffect(() => {
-//     if (!token) {
-//       navigate("/landing");
-//       return;
-//     }
+  const handleSavePassword = async () => {
+    if (!currentPassword || !newPassword) {
+      alert("Please fill current and new password");
+      return;
+    }
+    try {
+      await updateUser({ password: newPassword });
+      alert("Password updated successfully");
+      setEditPassword(false);
+      setCurrentPassword("");
+      setNewPassword("");
+    } catch (err: any) {
+      alert("Failed to update password: " + err.message);
+    }
+  };
 
-//     async function fetchUser() {
-//       setLoading(true);
-//       setError(null);
+  const handleDeleteAccount = async () => {
+    if (!userEmail) {
+      alert("User email not found.");
+      return;
+    }
+    try {
+      await deleteUser(userEmail);
+      alert("Account deleted");
+      logout();
+      navigate("/landing");
+    } catch (err: any) {
+      alert("Failed to delete account: " + err.message);
+    }
+  };
 
-//       const userId = getUserIdFromToken();
+  return (
+    <main className="profile-user__container">
+      <header className="profile-header">
+        <h1>Profile</h1>
+        <button className="btn-logout" onClick={handleLogout}>Logout</button>
+      </header>
 
-//       if (!userId) {
-//         logout();
-//         navigate("/landing");
-//         return;
-//       }
+      {!loggedOut && (
+        <>
+          <section className="profile-section">
+  <label>
+    Name:
+    {editInfo ? (
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Digite seu nome"
+      />
+    ) : (
+      <span>{name || "[Nome do usuário]"}</span>
+    )}
+  </label>
 
-//       try {
-//         const userData = await getUserByEmail (userId);
-//         setUser(userData);
-//         setName(userData.name);
-//       } catch (err: any) {
-//         setError(err.message);
-//       } finally {
-//         setLoading(false);
-//       }
-//     }
+  <label>
+    Email:
+    {editInfo ? (
+      <input
+        type="email"
+        value={userEmail}
+        onChange={(e) => setUserEmail(e.target.value)}
+        placeholder="Digite seu email"
+      />
+    ) : (
+      <span>{userEmail || "[Email]"}</span>
+    )}
+  </label>
 
-//     fetchUser();
-//   }, [token, navigate, logout]);
+  <label>
+    Role:
+    <span>{role || "[Role]"}</span>
+  </label>
 
-//   const handleLogout = () => {
-//     logout();
-//     navigate("/landing");
-//   };
-// const userId = getUserIdFromToken();
+  <label>
+    Password:
+    <span>*****</span>
+  </label>
 
-// const handleSaveInfo = async () => {
-//   if (!name) {
-//     alert("Name cannot be empty");
-//     return;
-//   }
-//   if (!userId) return; // previne erro
+  {editInfo ? (
+    <div className="profile-buttons-row">
+      <button onClick={() => setEditInfo(false)}>Cancel</button>
+      <button onClick={handleSaveInfo}>Save</button>
+    </div>
+  ) : (
+    <button onClick={() => setEditInfo(true)}>Edit Info</button>
+  )}
+</section>
 
-//   try {
-//     const newToken = await updateUser(userId, { name });
-//     // resto do código...
-//   } catch (err: any) {
-//     alert(err.message);
-//   }
-// };
 
-// const handleSavePassword = async () => {
-//   if (!currentPassword || !newPassword) {
-//     alert("Current and new password must be filled");
-//     return;
-//   }
-//   if (!userId) return;
+          <section className="profile-section password-section">
+            {editPassword ? (
+              <>
+                <label>
+                  Current Password:
+                  <input
+                    type="password"
+                    autoComplete="current-password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                  />
+                </label>
 
-//   try {
-//     const newToken = await updateUser(userId, { password: newPassword });
-//     // resto do código...
-//   } catch (err: any) {
-//     alert(err.message);
-//   }
-// };
+                <label>
+                  New Password:
+                  <input
+                    type="password"
+                    autoComplete="new-password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  />
+                </label>
 
-//   const handleDeleteAccount = async () => {
-//     const userId = getUserIdFromToken();
-//     if (!userId) {
-//       alert("User ID not found.");
-//       logout();
-//       navigate("/landing");
-//       return;
-//     }
+                <div className="profile-buttons-row">
+                  <button onClick={() => setEditPassword(false)}>Cancel</button>
+                  <button onClick={handleSavePassword}>Save Password</button>
+                </div>
+              </>
+            ) : (
+              <button onClick={() => setEditPassword(true)}>Edit Password</button>
+            )}
+          </section>
 
-//     try {
-//       await deleteUser(userId);
-//       alert("Account deleted");
-//       logout();
-//       navigate("/landing");
-//     } catch (err: any) {
-//       alert(err.message);
-//     }
-//   };
+          <section className="profile-section delete-account-section">
+            {!confirmDelete ? (
+              <button className="btn-delete" onClick={() => setConfirmDelete(true)}>
+                Delete Account
+              </button>
+            ) : !confirmDeleteStepTwo ? (
+              <div className="confirm-delete">
+                <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                <button className="confirm-yes-button" onClick={() => setConfirmDeleteStepTwo(true)}>Yes</button>
+                <button className="cancel-no-button" onClick={() => setConfirmDelete(false)}>No</button>
+              </div>
+            ) : (
+              <div className="confirm-delete">
+                <p>This is your last chance. Confirm delete account?</p>
+                <button className="confirm-yes-button" onClick={handleDeleteAccount}>Confirm Delete</button>
+                <button className="cancel-no-button" onClick={() => setConfirmDeleteStepTwo(false)}>Cancel</button>
+              </div>
+            )}
+          </section>
+        </>
+      )}
 
-//   if (loading) return <div>Loading profile...</div>;
-//   if (error) return <div>Error: {error}</div>;
-//   if (!user) return null;
+      {loggedOut && (
+        <section className="logout-message">
+          <p>Você saiu do perfil.</p>
+        </section>
+      )}
+    </main>
+  );
+};
 
-//   return (
-//     <main className="profile-user__container">
-//       <header className="profile-header">
-//         <h1>Profile</h1>
-//         <button className="btn-logout" onClick={handleLogout}>
-//           Logout
-//         </button>
-//       </header>
-
-//       <section className="profile-section">
-//         <label>
-//           Name:
-//           {editInfo ? (
-//             <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-//           ) : (
-//             <span>{user.name}</span>
-//           )}
-//         </label>
-
-//         <label>
-//           Email:
-//           <span>{user.email}</span>
-//         </label>
-
-//         <label>
-//           Role:
-//           <span>{user.role}</span>
-//         </label>
-
-//         <label>
-//           Password:
-//           <span>***</span>
-//         </label>
-
-//         {editInfo ? (
-//           <div className="profile-buttons-row">
-//             <button onClick={() => setEditInfo(false)}>Cancel</button>
-//             <button onClick={handleSaveInfo}>Save</button>
-//           </div>
-//         ) : (
-//           <button onClick={() => setEditInfo(true)}>Edit Info</button>
-//         )}
-//       </section>
-
-//       <section className="profile-section password-section">
-//         {editPassword ? (
-//           <>
-//             <label>
-//               Current Password:
-//               <input
-//                 type="password"
-//                 value={currentPassword}
-//                 onChange={(e) => setCurrentPassword(e.target.value)}
-//                 autoComplete="current-password"
-//               />
-//             </label>
-
-//             <label>
-//               New Password:
-//               <input
-//                 type="password"
-//                 value={newPassword}
-//                 onChange={(e) => setNewPassword(e.target.value)}
-//                 autoComplete="new-password"
-//               />
-//             </label>
-
-//             <div className="profile-buttons-row">
-//               <button onClick={() => setEditPassword(false)}>Cancel</button>
-//               <button onClick={handleSavePassword}>Save Password</button>
-//             </div>
-//           </>
-//         ) : (
-//           <button onClick={() => setEditPassword(true)}>Edit Password</button>
-//         )}
-//       </section>
-
-//       <section className="profile-section delete-account-section">
-//         {!confirmDelete ? (
-//           <button className="btn-delete" onClick={() => setConfirmDelete(true)}>
-//             Delete Account
-//           </button>
-//         ) : !confirmDeleteStepTwo ? (
-//           <div className="confirm-delete">
-//             <p>
-//               Are you sure you want to delete your account? This action cannot be undone.
-//             </p>
-//             <button onClick={() => setConfirmDeleteStepTwo(true)}>Yes</button>
-//             <button onClick={() => setConfirmDelete(false)}>No</button>
-//           </div>
-//         ) : (
-//           <div className="confirm-delete">
-//             <p>This is your last chance. Confirm delete account?</p>
-//             <button onClick={handleDeleteAccount}>Confirm Delete</button>
-//             <button onClick={() => setConfirmDeleteStepTwo(false)}>Cancel</button>
-//           </div>
-//         )}
-//       </section>
-//     </main>
-//   );
-// };
-
-// export default Profile;
+export default Profile;
