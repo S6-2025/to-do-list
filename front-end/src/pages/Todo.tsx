@@ -13,8 +13,7 @@ type TodoProps = {
 
 const Todo: React.FC<TodoProps> = ({ tasks, setTasks, onUpdateTask }) => {
   const { role, token } = useAuth();
-console.log("Current user role:", role);
-
+ console.log("Role: ", role)
   const handleAddTask = async (task: {
     title: string;
     description: string;

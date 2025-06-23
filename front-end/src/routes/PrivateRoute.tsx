@@ -1,23 +1,32 @@
-// src/routes/PrivateRoute.tsx
-import { JSX } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+type Role = "PO" | "SM" | "EMPLOYEE";
+
 interface Props {
-  children: JSX.Element;
-  allowedRoles?: string[];
+  children: React.ReactNode;
+  allowedRoles?: Role[];
 }
 
 export default function PrivateRoute({ children, allowedRoles }: Props) {
   const { token, role } = useAuth();
 
   if (!token) {
-    return <Navigate to="/login" />;
+    // Não está logado
+    return <Navigate to="/landing" replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(role!)) {
-    return <Navigate to="/unauthorized" />; // página que você pode criar
+  if (!role) {
+    // Token presente mas role ainda não carregada - pode mostrar loading ou redirecionar
+    return <div>Loading permissions...</div>;
   }
 
-  return children;
+  if (allowedRoles && !allowedRoles.includes(role)) {
+    // Não tem permissão para essa rota
+    return <Navigate to="/unauthorized" replace />; // ou "/landing"
+  }
+
+  // Tudo certo, renderiza filhos
+  return <>{children}</>;
 }

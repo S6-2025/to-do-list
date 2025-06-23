@@ -1,12 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import * as jwtDecode from "jwt-decode";
+import { decodeJwt } from "jose";
+
 import { setAuthToken } from "../services/Api";
 
 type Role = "PO" | "SM" | "EMPLOYEE";
 
 interface JwtPayload {
-  authorities?: string[]; // Pode ter esse campo no token
-  roles?: string[];       // Ou esse
+  authorities?: string[];
+  roles?: string[];
+  role?: string;
   // outros campos que seu token possa ter...
 }
 
@@ -23,10 +25,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setTokenState] = useState<string | null>(null);
   const [role, setRole] = useState<Role | null>(null);
 
-  // Função para decodificar token JWT com fallback para import compatível
   const decodeToken = (token: string): JwtPayload => {
-    const decodeFunc = (jwtDecode as any).default || jwtDecode;
-    return decodeFunc(token);
+    return decodeJwt(token);
   };
 
   useEffect(() => {
@@ -37,17 +37,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const applyToken = (token: string) => {
-     console.log("Applying token:", token);
+    console.log("Applying token:", token);
+
+    if (!token || token.trim() === "") {
+      console.warn("Empty or invalid token passed to applyToken");
+      setRole(null);
+      setTokenState(null);
+      sessionStorage.removeItem("token");
+      setAuthToken("");
+      return;
+    }
+
     setTokenState(token);
     sessionStorage.setItem("token", token);
     setAuthToken(token);
 
     try {
       const decoded = decodeToken(token);
-      console.log("Decoded JWT:", decoded);
+      console.log("Decoded JWT full payload:", decoded);
 
-      const authorities: string[] = decoded.authorities || decoded.roles || [];
-      const roleString = authorities.length > 0 ? authorities[0] : null;
+      const roleString = decoded.role;
 
       const roleMap: Record<string, Role> = {
         ROLE_PO: "PO",
@@ -55,7 +64,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         ROLE_EMPLOYEE: "EMPLOYEE",
       };
 
-      setRole(roleString ? roleMap[roleString] || null : null);
+      const mappedRole = roleString ? roleMap[roleString] || null : null;
+      console.log("Role string from token:", roleString);
+      console.log("Mapped role:", mappedRole);
+
+      setRole(mappedRole);
     } catch (error) {
       console.error("Invalid token:", error);
       setRole(null);
