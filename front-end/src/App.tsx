@@ -1,9 +1,10 @@
 import AppRoutes from "./routes/AppRoutes";
 import { BrowserRouter, useLocation } from "react-router-dom";
-
+import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Task } from "./utils/TasksTypes";
+import { setAuthToken } from "./services/Api";
 
 import "./css/Todo.css";
 import "./css/Header.css";
@@ -19,16 +20,19 @@ import React, { useEffect, useState } from "react";
 
 const AppContent: React.FC = () => {
   const location = useLocation();
- 
+  const token = sessionStorage.getItem("token");
+  if (token) {
+    setAuthToken(token);
+  }
 
- const [tasks, setTasks] = useState<Task[]>(() => {
-  const saved = localStorage.getItem("tasks");
-  return saved ? JSON.parse(saved) : [];
-});
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const saved = sessionStorage.getItem("tasks");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  // Carrega tasks do localStorage no início
+  // Carrega tasks do sessionStorage no início
   useEffect(() => {
-    const stored = localStorage.getItem("tasks");
+    const stored = sessionStorage.getItem("tasks");
     if (stored) {
       try {
         setTasks(JSON.parse(stored));
@@ -40,10 +44,10 @@ const AppContent: React.FC = () => {
     }
   }, []);
 
-  // Atualiza o localStorage sempre que mudar
+  // Atualiza o sessionStorage sempre que mudar
   useEffect(() => {
     if (tasks !== null) {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
+      sessionStorage.setItem("tasks", JSON.stringify(tasks));
     }
   }, [tasks]);
 
@@ -56,10 +60,14 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="app-container">
-     <Header isHidden={location.pathname === "/login"} />
+      <Header isHidden={location.pathname === "/login"} />
       <div className="main-content">
         {tasks !== null && (
-          <AppRoutes tasks={tasks} setTasks={setTasks} onUpdateTask={handleUpdateTask} />
+          <AppRoutes
+            tasks={tasks}
+            setTasks={setTasks}
+            onUpdateTask={handleUpdateTask}
+          />
         )}
       </div>
       <Footer />
@@ -70,7 +78,9 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <AppContent />
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </BrowserRouter>
   );
 };

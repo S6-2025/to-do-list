@@ -16,7 +16,7 @@ const AppRoutes: React.FC<AppRoutesProps> = ({ tasks, setTasks, onUpdateTask }) 
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route
-        path="/"
+        path="/todo"
         element={<Todo tasks={tasks} setTasks={setTasks} onUpdateTask={onUpdateTask} />}
       />
     </Routes>

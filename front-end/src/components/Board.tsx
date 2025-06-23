@@ -8,6 +8,7 @@ type BoardProps = {
   tasks: Task[];
   setTasks: Dispatch<SetStateAction<Task[]>>;
   onUpdateTask: (updated: Task) => void;
+  canEdit: boolean;  // adiciona essa prop
 };
 type DropResult = {
   source: {
@@ -20,13 +21,14 @@ type DropResult = {
   } | null;
 };
 
-const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask }) => {
+const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask,  canEdit }) => {
   const [expandedTask, setExpandedTask] = useState<Task | null>(null);
   const [isOpening, setIsOpening] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [isVisible, setIsVisible] = useState(false); // controla visibilidade no DOM
 
   const onDragEnd = (result: DropResult) => {
+    if (!canEdit) return; 
     const { source, destination } = result;
     if (!destination) return;
     if (
@@ -113,7 +115,7 @@ const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask }) => {
     tasks.filter((task) => task.status === status);
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    sessionStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
   // Animação de saída: esconde painel depois do tempo da transição
@@ -147,6 +149,7 @@ const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask }) => {
             onClose={handleCloseDetail}
             onUpdate={handleUpdate}
             className={isClosing ? "closing" : isOpening ? "opening" : ""}
+             canEdit={canEdit}
           />
         )}
 
@@ -154,30 +157,34 @@ const Board: React.FC<BoardProps> = ({ tasks, setTasks, onUpdateTask }) => {
           <BoardColumn
             className="cancelled-style-column"
             title="Cancelado"
-            tasks={filterTasks("cancelled")}
+            tasks={filterTasks("CANCELLED")}
             onExpand={handleExpand}
             droppableId="cancelled" // passe a droppableId para cada coluna
+             canEdit={canEdit}
           />
           <BoardColumn
             className="backlog-style-column"
             title="Backlog"
-            tasks={filterTasks("backlog")}
+            tasks={filterTasks("BACKLOG")}
             onExpand={handleExpand}
             droppableId="backlog"
+             canEdit={canEdit}
           />
           <BoardColumn
             className="in_progress-style-column"
             title="Em andamento"
-            tasks={filterTasks("in_progress")}
+            tasks={filterTasks("ACTIVE")}
             onExpand={handleExpand}
             droppableId="in_progress"
+             canEdit={canEdit}
           />
           <BoardColumn
            className="done-style-column"
             title="Concluído"
-            tasks={filterTasks("done")}
+            tasks={filterTasks("FINISHED")}
             onExpand={handleExpand}
             droppableId="done"
+             canEdit={canEdit}
           />
         </div>
       </div>

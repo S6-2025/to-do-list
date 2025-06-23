@@ -1,60 +1,173 @@
 import React, { useState } from "react";
-
-type TaskStatus = "backlog" | "in_progress" | "done" | "cancelled";
+import { TaskStatus, TaskPriority } from "../utils/TasksTypes";
 
 type AddTaskProps = {
-  onAdd: (title: string, status: TaskStatus) => void; // agora recebe status também
+  onAdd: (task: {
+    title: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    priority: TaskPriority;
+    status: TaskStatus;
+    ownerEmail: string;
+  }) => void;
 };
 
 const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const [title, setTitle] = useState("");
-  const [status, setStatus] = useState<TaskStatus | "">(""); // '' = não selecionado
+  const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [priority, setPriority] = useState<TaskPriority>("MEDIUM");
+  const [status, setStatus] = useState<TaskStatus>("BACKLOG");
+  const [ownerEmail, setOwnerEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (title.trim() === "") return;
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
-    // se status vazio, default para backlog
-    const taskStatus: TaskStatus = status === "" ? "backlog" : status;
+  const handleAddTask = () => {
+    if (
+      !title.trim() ||
+      !description.trim() ||
+      !startDate ||
+      !endDate ||
+      !priority ||
+      !status ||
+      !ownerEmail.trim()
+    ) {
+      alert("Preencha todos os campos.");
+      return;
+    }
 
-    onAdd(title, taskStatus);
+    onAdd({
+      title,
+      description,
+      startDate,
+      endDate,
+      priority,
+      status,
+      ownerEmail,
+    });
+
+    // resetar os campos
     setTitle("");
-    setStatus("");
+    setDescription("");
+    setStartDate("");
+    setEndDate("");
+    setPriority("MEDIUM");
+    setStatus("BACKLOG");
+    setOwnerEmail("");
+    closeModal();
   };
 
   return (
     <div className="add-task__container">
-      <form className="add-task-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Digite a tarefa"
-        />
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value as TaskStatus)}
-        >
-          <option value="" disabled hidden>
-            Status
-          </option>
-          <option value="cancelled" className="cancelled-style-option">
-            Cancelado
-          </option>
-          <option value="backlog" className="backlog-style-option">
-            Backlog
-          </option>
-          <option value="in_progress" className="in_progress-style-option">
-            Em andamento
-          </option>
-          <option value="done" className="done-style-option">
-            Concluído
-          </option>
-        </select>
-        <button type="submit" className="button-add-task">
-          Adicionar
-        </button>
-      </form>
+      <button
+        className="button-open-addtask"
+        onClick={openModal}
+        aria-label="Open Add Task"
+      >
+        +
+      </button>
+
+      {isOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button
+              onClick={closeModal}
+              aria-label="Close Add Task"
+              className="modal-close-button"
+            >
+              ×
+            </button>
+
+            <div className="add-task-form">
+              <label>
+                Título:
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+              </label>
+
+              <label>
+                Descrição:
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={3}
+                  required
+                />
+              </label>
+
+              <label>
+                Data inicial:
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  required
+                />
+              </label>
+
+              <label>
+                Data final:
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  required
+                />
+              </label>
+
+              <label>
+                Prioridade:
+                <select
+                  value={priority}
+                  onChange={(e) => setPriority(e.target.value as TaskPriority)}
+                  required
+                >
+                  <option value="LOW">Baixa</option>
+                  <option value="MEDIUM">Média</option>
+                  <option value="HIGH">Alta</option>
+                </select>
+              </label>
+
+              <label>
+                Status:
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value as TaskStatus)}
+                  required
+                >
+                  <option value="CANCELLED">Cancelado</option>
+                  <option value="BACKLOG">Backlog</option>
+                  <option value="ACTIVE">Em andamento</option>
+                  <option value="FINISHED">Concluído</option>
+                </select>
+              </label>
+
+              <label>
+                Responsável (email):
+                <input
+                  type="email"
+                  value={ownerEmail}
+                  onChange={(e) => setOwnerEmail(e.target.value)}
+                  required
+                />
+              </label>
+
+              <button className="button-submit-task" onClick={handleAddTask}>
+                Criar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

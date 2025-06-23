@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Task } from "../utils/TasksTypes";
 import { Draggable } from "react-beautiful-dnd";
- 
 
 type TaskCardProps = {
   task: Task;
   onExpand: () => void;
   index: number; // index para draggable
+  canEdit: boolean;
 };
 
 const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
@@ -14,7 +14,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
   const [isEditingAssigned, setIsEditingAssigned] = useState(false);
   const [localTask, setLocalTask] = useState({
     title: task.title,
-    assignedTo: task.assignedTo,
+    ownerEmail: task.ownerEmail,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
 
   return (
     <Draggable draggableId={task.id.toString()} index={index}>
-      {(provided, snapshot) => (
+      {(provided) => (
         <div
           className={`task-card__container ${statusClass}`}
           ref={provided.innerRef}
@@ -47,8 +47,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
           {isEditingAssigned ? (
             <input
               type="text"
-              name="assignedTo"
-              value={localTask.assignedTo}
+              name="ownerEmail"
+              value={localTask.ownerEmail}
               onChange={handleChange}
               onBlur={() => setIsEditingAssigned(false)}
               onKeyDown={handleKeyDown}
@@ -59,7 +59,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
               className="task-assigned"
               onDoubleClick={() => setIsEditingAssigned(true)}
             >
-              Responsável: {localTask.assignedTo}
+              Responsável: {localTask.ownerEmail}
             </p>
           )}
 
@@ -81,11 +81,15 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index }) => {
               {localTask.title}
             </h3>
           )}
+
+          {/* Exibe a prioridade */}
+          <p className={`task-priority task-priority-${task.priority.toLowerCase()}`}>
+            Priority: {task.priority}
+          </p>
         </div>
       )}
     </Draggable>
   );
 };
-
 
 export default TaskCard;

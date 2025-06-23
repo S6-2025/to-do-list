@@ -8,10 +8,11 @@
     tasks: Task[];
     onExpand: (task: Task) => void;
     droppableId: string; 
-     className?: string; 
+    className?: string; 
+    canEdit: boolean; 
   };
 
-  const BoardColumn: React.FC<BoardColumnProps> = ({ title, tasks, onExpand, droppableId }) => {
+  const BoardColumn: React.FC<BoardColumnProps> = ({ title, tasks, onExpand, droppableId, canEdit }) => {
     return (
       <div className="board-column">
         <h2 className="board-column-title">{title}</h2>
@@ -29,6 +30,7 @@
                   task={task}
                   onExpand={() => onExpand(task)}
                   index={index} // importante passar o index para o draggable
+                  canEdit={canEdit}
                 />
               ))}
               {provided.placeholder}

@@ -1,13 +1,13 @@
+export type TaskStatus = "CANCELLED" | "BACKLOG" | "ACTIVE" | "FINISHED";
+export type TaskPriority = "LOW" | "MEDIUM" | "HIGH";
 
-
-export type TaskStatus = "cancelled" | "backlog" | "in_progress" | "done";
-
-export type Task = {
+export interface Task {
   id: string;
   title: string;
-  assignedTo: string;
-  status: TaskStatus;
+  description: string;
   startDate: string;
   endDate: string;
-  description: string;
-};
+  status: TaskStatus;
+  priority: TaskPriority;
+  ownerEmail: string;
+}
