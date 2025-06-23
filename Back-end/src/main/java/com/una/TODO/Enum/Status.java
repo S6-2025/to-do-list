@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Status {
+    CANCELLED,
     BACKLOG,
     ACTIVE,
     FINISHED;
