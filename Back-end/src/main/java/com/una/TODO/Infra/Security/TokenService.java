@@ -16,12 +16,13 @@ import java.time.ZoneOffset;
 public class TokenService {
     @Value("${api.security.token.secret}") //INFO: Pega o valor do app.properties
     private String secret;
+    private static final String ISSUER = "una.auth.api";
 
     public String generateToken(User user) {
         try {
             Algorithm alg = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer("una.auth.api")
+                    .withIssuer(ISSUER)
                     .withSubject(user.getId().toString())
                     .withExpiresAt(generateExpirationDate())
                     .sign(alg);
@@ -34,7 +35,7 @@ public class TokenService {
         try {
             Algorithm alg = Algorithm.HMAC256(secret);
             return JWT.require(alg)
-                    .withIssuer("nutrifacil.auth.api")
+                    .withIssuer(ISSUER)
                     .build()
                     .verify(token)
                     .getSubject();

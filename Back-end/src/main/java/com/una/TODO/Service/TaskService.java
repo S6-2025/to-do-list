@@ -1,6 +1,8 @@
 package com.una.TODO.Service;
 
 import com.una.TODO.DTO.CreateTaskDTO;
+import com.una.TODO.DTO.UpdateTaskDTO;
+import com.una.TODO.Mapper.TaskMapper;
 import com.una.TODO.Models.Task;
 import com.una.TODO.Models.User;
 import com.una.TODO.Repository.TaskRepository;
@@ -8,7 +10,6 @@ import com.una.TODO.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -44,16 +45,20 @@ public class TaskService {
     }
 
     public String createTask(CreateTaskDTO task){
-        taskRepository.save(TaskMapper.mapTask(task));
+        taskRepository.save(TaskMapper.mapTask(task,userRepository));
         return "Task created successfully";
     }
 
-    public Task updateTask(UUID taskId, Task updatedData){
+    public Task updateTask(UUID taskId, UpdateTaskDTO dto) {
         Task existingTask = taskRepository.findTaskById(taskId)
                 .orElseThrow(() -> new RuntimeException("Task not found!"));
 
-        return TaskMapper.checkAndUpdateFields(existingTask, updatedData);
+        TaskMapper.updateTaskFromDTO(existingTask, dto);
+
+        return taskRepository.save(existingTask);
     }
+
+
 
     public void deleteTask(UUID taskId){
         Task task = taskRepository.findTaskById(taskId)
@@ -64,44 +69,4 @@ public class TaskService {
 
 
 
-}
-class TaskMapper{
-    public static Task mapTask(CreateTaskDTO taskDTO){
-        return new Task(
-                taskDTO.title(),
-                taskDTO.description(),
-                taskDTO.startDate(),
-                taskDTO.endDate(),
-                taskDTO.priority(),
-                taskDTO.status()
-        );
-
-    }
-
-    public static Task checkAndUpdateFields(Task existingTask, Task updateData) {
-        Field[] fields = updateData.getClass().getFields();
-
-        for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-                Object value = field.get(updateData);
-
-                if (value != null) {
-                    String fieldName = field.getName();
-                    try {
-                        Field userField = existingTask.getClass().getDeclaredField(fieldName);
-                        userField.setAccessible(true);
-                        userField.set(existingTask, value);
-                        userField.setAccessible(false);
-                    } catch (NoSuchFieldException e) {
-                        System.out.println("Field doesnt exist in User class!");
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-        return existingTask;
-    }
 }

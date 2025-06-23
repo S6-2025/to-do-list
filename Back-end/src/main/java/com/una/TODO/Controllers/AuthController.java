@@ -17,7 +17,7 @@ public class AuthController {
 
     private final AuthService service;
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginDTO loginData){
         try{
             String token = service.login(loginData);
@@ -27,6 +27,7 @@ public class AuthController {
                     )
             );
         }catch (RuntimeException e){
+            System.out.println(e.getMessage());
             return ResponseEntity.status(404).body(e.getMessage());
         }catch (Exception e){
             System.out.println(e.getMessage());
