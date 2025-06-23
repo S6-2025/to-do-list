@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link,useNavigate, useLocation } from "react-router-dom";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const handleCadastro = () => {
+    navigate("/register", {
+      state: { backgroundLocation: location },
+    });
+  };
   return (
     <header className=" header__container">
       <div className="logo-container-header">
@@ -22,6 +28,9 @@ const Header = () => {
           </li>
           <li>
             <Link to="/" className="links-header"> About</Link>
+          </li>
+          <li>
+            <button className="links-header-button" onClick={handleCadastro}>Cadastrar</button>
           </li>
         </ul>
       </div>

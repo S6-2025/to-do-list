@@ -12,13 +12,12 @@
   color: var(--text);
   background-color: var(--background);
 
-  --text: #f0f0f0;
-  --background: #2d2d2d;
+  --text: #d9d3d9;
+  --background: #2a202a;
   --background2: #05002e;
-  --primary: #0000ff;
-  --primary: #0000ff;
-  --secondary: #2e007a;
-  --accent: #a500ff;
+  --primary: #5f80a6;
+  --secondary: #823e69;
+  --accent: #6f975e;
   color: var(--text);
   background-color: var(--background);
 
@@ -34,11 +33,11 @@ p{
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--text);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--secondary);
 }
 
 html, body, #root, .app-container {
