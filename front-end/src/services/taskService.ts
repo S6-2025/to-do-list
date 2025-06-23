@@ -39,9 +39,16 @@ export const updateTask = async (id: string, data: any) => {
 };
 
 export const deleteTask = async (id: string) => {
-  const response = await api.delete(`/tasks/delete/${id}`);
-  return response.data;
+  try {
+    const response = await api.delete(`/tasks/delete/${id}`);
+    console.log("Delete response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Delete error:", error);
+    throw error;
+  }
 };
+
 
 export const checkRole = async () => {
   const response = await api.get("/tasks/check-role");

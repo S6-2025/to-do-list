@@ -3,7 +3,7 @@ import BoardColumn from "./BoardColumn";
 import TaskDetail from "./TaskDetail";
 import TaskCard from "./TaskCard";
 import { Task } from "../utils/TasksTypes";
-import { updateTask } from "../services/taskService";
+import { updateTask,deleteTask } from "../services/taskService";
 
 import {
   DndContext,
@@ -135,6 +135,19 @@ const Board: React.FC<BoardProps> = ({
     }
   }, [expandedTask]);
 
+const handleDeleteTask = async (taskId: string) => {
+  console.log("Deletando task com id:", taskId);
+  try {
+    await deleteTask(taskId); // função do seu taskService que faz a chamada DELETE na API
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+    setExpandedTask(null); // fecha o detalhe após deletar
+  } catch (error) {
+    alert("Erro ao deletar a tarefa.");
+    console.error(error);
+  }
+};
+
+
   return (
     <DndContext
       sensors={sensors}
@@ -149,6 +162,7 @@ const Board: React.FC<BoardProps> = ({
             task={expandedTask}
             onClose={handleCloseDetail}
             onUpdate={handleUpdate}
+             onDelete={handleDeleteTask}
             className={isClosing ? "closing" : isOpening ? "opening" : ""}
             canEdit={canEdit}
           />

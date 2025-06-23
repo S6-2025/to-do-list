@@ -57,6 +57,7 @@ useEffect(() => {
       alert("Erro ao atualizar tarefa");
     }
   };
+  
 
   return (
     <main className="todo__container">
