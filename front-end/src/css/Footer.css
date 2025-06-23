@@ -1,14 +1,18 @@
-.footer__container{
-  background-color: var(--secondary);
+.footer__container {
+ 
   height: 7vh;
+  min-height: 50px; /* para garantir um mínimo se viewport for pequena */
   
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
 
+ 
+  flex-shrink: 0;  /* impede o footer de encolher */
 }
 
  .footer-direitos{
    font-size: 1.2rem;
+   color: var(--text-todo);
+   font-weight: 700;
  }

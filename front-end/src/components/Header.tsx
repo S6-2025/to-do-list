@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link,useNavigate, useLocation } from "react-router-dom";
-const Header = () => {
+type HeaderProps = {
+  isHidden?: boolean;
+};
+const Header: React.FC<HeaderProps> = ({ isHidden = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -11,13 +14,13 @@ const Header = () => {
     });
   };
   return (
-    <header className=" header__container">
+    <header className={`header__container ${isHidden ? "header--hidden" : ""}`}>
       <div className="logo-container-header">
         <Link to="/" className="logo-header">
           <svg className="header__SVG">
-            <use xlinkHref="/icons.svg#book-heart" />
+            <use xlinkHref="/icons.svg#plus" />
           </svg>
-          <h1>Todo List</h1>
+          <h1>ToTask</h1>
         </Link>
       </div>
 
