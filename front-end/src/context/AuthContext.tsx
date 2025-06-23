@@ -15,6 +15,7 @@ interface JwtPayload {
 interface AuthContextType {
   token: string | null;
   role: Role | null;
+  email: string | null;  // adiciona email aqui
   setToken: (token: string) => void;
   logout: () => void;
 }
@@ -24,6 +25,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setTokenState] = useState<string | null>(null);
   const [role, setRole] = useState<Role | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
 
   const decodeToken = (token: string): JwtPayload => {
     return decodeJwt(token);
@@ -38,6 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const applyToken = (token: string) => {
     console.log("Applying token:", token);
+    
 
     if (!token || token.trim() === "") {
       console.warn("Empty or invalid token passed to applyToken");
@@ -73,6 +76,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.error("Invalid token:", error);
       setRole(null);
     }
+  
+    try {
+    const decoded = decodeToken(token);
+    console.log("Decoded JWT full payload:", decoded);
+
+    const roleString = decoded.role;
+    const roleMap: Record<string, Role> = {
+      ROLE_PO: "PO",
+      ROLE_SM: "SM",
+      ROLE_EMPLOYEE: "EMPLOYEE",
+    };
+
+    const mappedRole = roleString ? roleMap[roleString] || null : null;
+    setRole(mappedRole);
+
+    // Extrai email do token, normalmente está no campo 'sub' ou 'email'
+    const emailFromToken = (decoded as any).email || (decoded as any).sub || null;
+    setEmail(emailFromToken);
+
+  } catch (error) {
+    console.error("Invalid token:", error);
+    setRole(null);
+    setEmail(null);
+  }
+  
   };
 
   const setToken = (token: string) => {
@@ -87,7 +115,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, role, setToken, logout }}>
+ <AuthContext.Provider value={{ token, role, email, setToken, logout }}>
       {children}
     </AuthContext.Provider>
   );

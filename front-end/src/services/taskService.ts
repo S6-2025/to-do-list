@@ -1,6 +1,8 @@
 // src/services/taskService.ts
 import api from "./Api";
 import { TaskPriority,TaskStatus } from "../utils/TasksTypes";
+
+
 export const getAllTasks = async () => {
   const response = await api.get("/tasks/all");
   return response.data.tasks;

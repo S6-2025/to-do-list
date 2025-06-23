@@ -15,6 +15,7 @@ import "./css/TaskCard.css";
 import "./css/TaskDetail.css";
 import "./css/AddTask.css";
 import "./css/Login.css";
+import "./css/Profile.css";
 
 import React, { useEffect, useState } from "react";
 
