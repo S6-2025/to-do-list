@@ -1,76 +1,158 @@
-  // src/components/TaskDetail.tsx
+import React, { useState, useEffect } from "react";
+import { Task, TaskPriority, TaskStatus } from "../utils/TasksTypes";
 
-  import React, { useState, useEffect } from "react";
-  import { Task } from "../utils/TasksTypes";
+type TaskDetailProps = {
+  task: Task;
+  onClose: () => void;
+  onUpdate: (task: Task) => void;
+  onDelete: (taskId: string) => void;
+  className?: string;
+  canEdit: boolean;
+};
 
-  type TaskDetailProps = {
-    task: Task;
-    onClose: () => void;
-    onUpdate: (task: Task) => void;
-    className?: string;
-    canEdit: boolean; 
+const TaskDetail: React.FC<TaskDetailProps> = ({
+  task,
+  onClose,
+  onUpdate,
+  onDelete,
+  className,
+  canEdit,
+}) => {
+  const [formData, setFormData] = useState<Task>({ ...task });
+
+  useEffect(() => {
+    setFormData({ ...task }); // Atualiza local ao mudar a task
+  }, [task]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+
+    // Como priority e status são enums, pode precisar converter o value para enum correto
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate,className }) => {
-    const [formData, setFormData] = useState<Task>({ ...task });
+  const handleSave = () => {
+    onUpdate(formData);
+  };
 
-    useEffect(() => {
-      setFormData({ ...task });  // Atualiza o estado local sempre que a task mudar
-    }, [task]);
+ const handleDelete = () => {
+  if (window.confirm("Tem certeza que deseja deletar esta tarefa?")) {
+    console.log("Chamando onDelete com id:", task.id);
+    onDelete(task.id);
+  }
+};
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-      const { name, value } = e.target;
-      setFormData(prev => ({ ...prev, [name]: value }));
-    };
+  useEffect(() => {
+  console.log("TaskDetail task prop:", task);
+  setFormData({ ...task });
+}, [task]);
 
-    const handleSave = () => {
-      onUpdate(formData);
-    };
-
-    return (
-      <div className={`task-detail__container ${className ?? ""}`}>
-        <button className="close-panel" onClick={onClose}>×</button>
-
-        <div className="task-detail-content">
-          <label>
-            Título:
-            <input type="text" name="title" value={formData.title} onChange={handleChange} />
-          </label>
-
-          <label>
-            Pessoa designada:
-            <input type="text" name="ownerEmail" value={formData.ownerEmail} onChange={handleChange} />
-          </label>
-
-          <label>
-            Status:
-            <select name="status" value={formData.status} onChange={handleChange}>
-              <option value="cancelled">Cancelado</option>
-              <option value="backlog">Backlog</option>
-              <option value="in_progress">Em andamento</option>
-              <option value="done">Concluído</option>
-            </select>
-          </label>
-
-          <label>
-            Data inicial:
-            <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} />
-          </label>
-
-          <label>
-            Data final:
-            <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} />
-          </label>
-
-          <label>
-            Descrição:
-            <textarea name="description" value={formData.description} onChange={handleChange} rows={5} />
-          </label>
-
-          <button className="save-button" onClick={handleSave}>Salvar</button>
-        </div>
+  return (
+    <div className={`task-detail__container ${className ?? ""}`}>
+      <div className="task-detail-header">
+        <button className="delete-button" onClick={handleDelete}>
+          Lixeira
+        </button>
+        <button className="close-panel" onClick={onClose}>
+          ×
+        </button>
       </div>
-    );
-  };
 
-  export default TaskDetail;
+      <div className="task-detail-content">
+        <label>
+          Título:
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            disabled={!canEdit}
+          />
+        </label>
+
+        <label>
+          Pessoa designada:
+          <input
+            type="text"
+            name="ownerEmail"
+            value={formData.ownerEmail}
+            onChange={handleChange}
+            disabled={!canEdit}
+          />
+        </label>
+
+        <label>
+          Status:
+          <select
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            disabled={!canEdit}
+          >
+            <option value="cancelled">Cancelado</option>
+            <option value="backlog">Backlog</option>
+            <option value="active">Em andamento</option>
+            <option value="finished">Concluído</option>
+          </select>
+        </label>
+
+        <label>
+          Prioridade:
+          <select
+            name="priority"
+            value={formData.priority}
+            onChange={handleChange}
+            disabled={!canEdit}
+          >
+            <option value="low">Baixa</option>
+            <option value="medium">Média</option>
+            <option value="high">Alta</option>
+          </select>
+        </label>
+
+        <label>
+          Data inicial:
+          <input
+            type="date"
+            name="startDate"
+            value={formData.startDate}
+            onChange={handleChange}
+            disabled={!canEdit}
+          />
+        </label>
+
+        <label>
+          Data final:
+          <input
+            type="date"
+            name="endDate"
+            value={formData.endDate}
+            onChange={handleChange}
+            disabled={!canEdit}
+          />
+        </label>
+
+        <label>
+          Descrição:
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={5}
+            disabled={!canEdit}
+          />
+        </label>
+
+        {canEdit && (
+          <button className="save-button" onClick={handleSave}>
+            Salvar
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default TaskDetail;

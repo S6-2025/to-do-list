@@ -68,10 +68,10 @@ public class TaskController {
 
 
 //    delete:
-
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('PO') OR hasRole('SM')")
     public ResponseEntity<Object> deleteTask(@PathVariable UUID id) {
+        System.out.println("Deleting task with ID: " + id);
         try {
             service.deleteTask(id);
             return ResponseEntity.ok("Task deleted successfully");
@@ -81,6 +81,7 @@ public class TaskController {
             return ResponseEntity.status(500).body("An unexpected error occurred!");
         }
     }
+
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('PO') OR hasRole('SM')")

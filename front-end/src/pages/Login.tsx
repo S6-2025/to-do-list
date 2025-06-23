@@ -3,24 +3,31 @@ import { useState } from "react";
 import { login } from "../services/authService";
 import { setAuthToken } from "../services/Api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setToken } = useAuth();
 
-  const handleLogin = async () => {
-    try {
-      const token = await login({ email, password });
-      sessionStorage.setItem("token", token);
-      setAuthToken(token);
-      console.log("login efetuado")
-      navigate("/todo");
 
-    } catch (err) {
-      alert("Erro ao logar");
-    }
-  };
+const handleLogin = async () => {
+  try {
+    const token = await login({ email, password });
+    sessionStorage.setItem("token", token);
+    setAuthToken(token);
+    setToken(token); // <<< ISSO É FUNDAMENTAL
+
+    setTimeout(() => {
+  navigate("/todo");
+}, 50); // 50ms já resolve
+  } catch (err) {
+    alert("Erro ao logar");
+  }
+};
+
 
   return (
     <main id="login-page__main">
