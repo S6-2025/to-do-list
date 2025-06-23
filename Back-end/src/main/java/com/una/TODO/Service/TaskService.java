@@ -9,6 +9,7 @@ import com.una.TODO.Repository.TaskRepository;
 import com.una.TODO.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -44,11 +45,13 @@ public class TaskService {
                 .toList();
     }
 
+    @Transactional
     public String createTask(CreateTaskDTO task){
         taskRepository.save(TaskMapper.mapTask(task,userRepository));
         return "Task created successfully";
     }
 
+    @Transactional
     public Task updateTask(UUID taskId, UpdateTaskDTO dto) {
         Task existingTask = taskRepository.findTaskById(taskId)
                 .orElseThrow(() -> new RuntimeException("Task not found!"));
@@ -59,14 +62,19 @@ public class TaskService {
     }
 
 
-
+    @Transactional
     public void deleteTask(UUID taskId){
         Task task = taskRepository.findTaskById(taskId)
                 .orElseThrow(() -> new RuntimeException("Task not found!"));
 
+        User owner = task.getOwner();
+        if(owner != null){
+            owner.getTasks().remove(task); // remove da lista do user
+            task.setOwner(null);            // remove referência no task
+        }
+
         taskRepository.delete(task);
     }
-
 
 
 }
