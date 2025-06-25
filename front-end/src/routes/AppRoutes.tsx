@@ -7,7 +7,8 @@ import Landing from "../pages/Landing";
 import Profile from "../pages/Profile";
 import PrivateRoute from "../routes/PrivateRoute";
 import { Task } from "../utils/TasksTypes";
-import PublicRoute from "./PublicRoute";
+import Register from"../pages/Register";
+// import PublicRoute from "./PublicRoute";
 
 type AppRoutesProps = {
   tasks: Task[];
@@ -20,6 +21,7 @@ const AppRoutes: React.FC<AppRoutesProps> = ({ tasks, setTasks, onUpdateTask }) 
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/landing" element={<Landing />} />
+        <Route path="/register" element={<Register />}/>
 
       <Route
         path="/todo"

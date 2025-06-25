@@ -73,12 +73,12 @@ const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
       </button>
 
       {isOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+        <div className="modal-overlay-addtask">
+          <div className="modal-content-addtask">
             <button
               onClick={closeModal}
               aria-label="Close Add Task"
-              className="modal-close-button"
+              className="modal-close-button-addtask"
             >
               ×
             </button>

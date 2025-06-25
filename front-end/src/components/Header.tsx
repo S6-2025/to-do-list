@@ -1,24 +1,32 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 type HeaderProps = {
   isHidden?: boolean;
 };
 const Header: React.FC<HeaderProps> = ({ isHidden = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-const toggleTheme = () => {
-  const html = document.documentElement;
-  if (html.classList.contains("dark")) {
-    html.classList.remove("dark");
-    html.classList.add("light");
-    localStorage.setItem("theme", "light");
-  } else {
-    html.classList.remove("light");
-    html.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-  }
-};
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const toggleTheme = () => {
+    const html = document.documentElement;
+    if (html.classList.contains("dark")) {
+      html.classList.remove("dark");
+      html.classList.add("light");
+      localStorage.setItem("theme", "light");
+    } else {
+      html.classList.remove("light");
+      html.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+  };
+
+  const handleCadastro = () => {
+    navigate("/register", {
+      state: { backgroundLocation: location },
+    });
+  };
 
   return (
     <header className={`header__container ${isHidden ? "header--hidden" : ""}`}>
@@ -42,10 +50,18 @@ const toggleTheme = () => {
               Perfil
             </Link>
           </li>
-        <li>
-            <button onClick={toggleTheme} className="links-header theme"> <svg className="header__SVG">
-            <use xlinkHref="/icons.svg#sun-moon" />
-          </svg></button>
+          <li>
+            <button className="links-header theme" onClick={handleCadastro}>
+              Cadastrar
+            </button>
+          </li>
+          <li>
+            <button onClick={toggleTheme} className="links-header theme">
+              {" "}
+              <svg className="header__SVG">
+                <use xlinkHref="/icons.svg#sun-moon" />
+              </svg>
+            </button>
           </li>
         </ul>
       </div>
