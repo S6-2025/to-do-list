@@ -6,6 +6,19 @@ type HeaderProps = {
 };
 const Header: React.FC<HeaderProps> = ({ isHidden = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+const toggleTheme = () => {
+  const html = document.documentElement;
+  if (html.classList.contains("dark")) {
+    html.classList.remove("dark");
+    html.classList.add("light");
+    localStorage.setItem("theme", "light");
+  } else {
+    html.classList.remove("light");
+    html.classList.add("dark");
+    localStorage.setItem("theme", "dark");
+  }
+};
+
 
   return (
     <header className={`header__container ${isHidden ? "header--hidden" : ""}`}>
@@ -21,10 +34,16 @@ const Header: React.FC<HeaderProps> = ({ isHidden = false }) => {
       <div className="links-container-header">
         <ul>
           <li>
-            <Link to="/" className="links-header"> Home</Link>
+            <Link to="/" className="links-header"></Link>
           </li>
+
           <li>
-            <Link to="/" className="links-header"> About</Link>
+            <Link to="/profile" className="links-header">
+              Perfil
+            </Link>
+          </li>
+        <li>
+            <button onClick={toggleTheme} className="links-header">Tema</button>
           </li>
         </ul>
       </div>

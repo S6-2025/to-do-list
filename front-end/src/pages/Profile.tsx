@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
-import { getCurrentUser, updateUser, deleteUser } from "../services/userService";
+import {
+  getCurrentUser,
+  updateUser,
+  deleteUser,
+} from "../services/userService";
 
 const Profile: React.FC = () => {
-  const [user, setUser] = useState<{ name: string; email: string; role: string }>({ name: "", email: "", role: "" });
+  const [user, setUser] = useState<{
+    name: string;
+    email: string;
+    role: string;
+  }>({ name: "", email: "", role: "" });
+
   const { email, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -15,30 +23,27 @@ const Profile: React.FC = () => {
   const [confirmDeleteStepTwo, setConfirmDeleteStepTwo] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
 
-  // Dados do usuário
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  
-  // Senhas para editar
+
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-useEffect(() => {
-  const fetchUser = async () => {
-    try {
-      const userData = await getCurrentUser();
-      setUser(userData);
-      setName(userData.name);
-      setRole(userData.role);
-      setUserEmail(userData.email);
-    } catch (error) {
-      console.error("Error fetching current user:", error);
-    }
-  };
-  fetchUser();
-}, []);
-
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await getCurrentUser();
+        setUser(userData);
+        setName(userData.name);
+        setRole(userData.role);
+        setUserEmail(userData.email);
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -46,20 +51,19 @@ useEffect(() => {
     navigate("/login");
   };
 
-const handleSaveInfo = async () => {
-  if (!name || !userEmail) {
-    alert("Name and Email cannot be empty");
-    return;
-  }
-  try {
-    await updateUser({ name, email: userEmail });
-    alert("User info updated successfully");
-    setEditInfo(false);
-  } catch (err: any) {
-    alert("Failed to update user info: " + err.message);
-  }
-};
-
+  const handleSaveInfo = async () => {
+    if (!name || !userEmail) {
+      alert("Name and Email cannot be empty");
+      return;
+    }
+    try {
+      await updateUser({ name, email: userEmail });
+      alert("User info updated successfully");
+      setEditInfo(false);
+    } catch (err: any) {
+      alert("Failed to update user info: " + err.message);
+    }
+  };
 
   const handleSavePassword = async () => {
     if (!currentPassword || !newPassword) {
@@ -96,64 +100,70 @@ const handleSaveInfo = async () => {
     <main className="profile-user__container">
       <header className="profile-header">
         <h1>Profile</h1>
-        <button className="btn-logout" onClick={handleLogout}>Logout</button>
+        <button className="btn-logout" onClick={handleLogout}>
+          Logout
+        </button>
       </header>
 
       {!loggedOut && (
         <>
           <section className="profile-section">
-  <label>
-    Name:
-    {editInfo ? (
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Digite seu nome"
-      />
-    ) : (
-      <span>{name || "[Nome do usuário]"}</span>
-    )}
-  </label>
+            <div className="profile-fields">
+              <label>
+                Name:
+                {editInfo ? (
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Digite seu nome"
+                  />
+                ) : (
+                  <span>{name || "[Nome do usuário]"}</span>
+                )}
+              </label>
 
-  <label>
-    Email:
-    {editInfo ? (
-      <input
-        type="email"
-        value={userEmail}
-        onChange={(e) => setUserEmail(e.target.value)}
-        placeholder="Digite seu email"
-      />
-    ) : (
-      <span>{userEmail || "[Email]"}</span>
-    )}
-  </label>
+              <label>
+                Email:
+                {editInfo ? (
+                  <input
+                    type="email"
+                    value={userEmail}
+                    onChange={(e) => setUserEmail(e.target.value)}
+                    placeholder="Digite seu email"
+                  />
+                ) : (
+                  <span>{userEmail || "[Email]"}</span>
+                )}
+              </label>
 
-  <label>
-    Role:
-    <span>{role || "[Role]"}</span>
-  </label>
+              <label>
+                Role:
+                <span>{role || "[Role]"}</span>
+              </label>
 
-  <label>
-    Password:
-    <span>*****</span>
-  </label>
+              <label>
+                Password:
+                <span>*****</span>
+              </label>
+            </div>
 
-  {editInfo ? (
-    <div className="profile-buttons-row">
-      <button onClick={() => setEditInfo(false)}>Cancel</button>
-      <button onClick={handleSaveInfo}>Save</button>
-    </div>
-  ) : (
-    <button onClick={() => setEditInfo(true)}>Edit Info</button>
-  )}
-</section>
+            {editInfo ? (
+              <div className="profile-buttons-row">
+                <button onClick={() => setEditInfo(false)}>Cancel</button>
+                <button onClick={handleSaveInfo}>Save</button>
+              </div>
+            ) : (
+              <div className="edit-buttons-row">
+                <button onClick={() => setEditInfo(true)}>Edit Info</button>
+                <button onClick={() => setEditPassword(true)}>
+                  Edit Password
+                </button>
+              </div>
+            )}
 
-
-          <section className="profile-section password-section">
-            {editPassword ? (
-              <>
+            {editPassword && (
+              <div className="password-edit-fields">
                 <label>
                   Current Password:
                   <input
@@ -178,28 +188,52 @@ const handleSaveInfo = async () => {
                   <button onClick={() => setEditPassword(false)}>Cancel</button>
                   <button onClick={handleSavePassword}>Save Password</button>
                 </div>
-              </>
-            ) : (
-              <button onClick={() => setEditPassword(true)}>Edit Password</button>
+              </div>
             )}
           </section>
 
           <section className="profile-section delete-account-section">
             {!confirmDelete ? (
-              <button className="btn-delete" onClick={() => setConfirmDelete(true)}>
+              <button
+                className="btn-delete"
+                onClick={() => setConfirmDelete(true)}
+              >
                 Delete Account
               </button>
             ) : !confirmDeleteStepTwo ? (
               <div className="confirm-delete">
-                <p>Are you sure you want to delete your account? This action cannot be undone.</p>
-                <button className="confirm-yes-button" onClick={() => setConfirmDeleteStepTwo(true)}>Yes</button>
-                <button className="cancel-no-button" onClick={() => setConfirmDelete(false)}>No</button>
+                <p>
+                  Are you sure you want to delete your account? This action
+                  cannot be undone.
+                </p>
+                <button
+                  className="confirm-yes-button"
+                  onClick={() => setConfirmDeleteStepTwo(true)}
+                >
+                  Yes
+                </button>
+                <button
+                  className="cancel-no-button"
+                  onClick={() => setConfirmDelete(false)}
+                >
+                  No
+                </button>
               </div>
             ) : (
               <div className="confirm-delete">
                 <p>This is your last chance. Confirm delete account?</p>
-                <button className="confirm-yes-button" onClick={handleDeleteAccount}>Confirm Delete</button>
-                <button className="cancel-no-button" onClick={() => setConfirmDeleteStepTwo(false)}>Cancel</button>
+                <button
+                  className="confirm-yes-button"
+                  onClick={handleDeleteAccount}
+                >
+                  Confirm Delete
+                </button>
+                <button
+                  className="cancel-no-button"
+                  onClick={() => setConfirmDeleteStepTwo(false)}
+                >
+                  Cancel
+                </button>
               </div>
             )}
           </section>

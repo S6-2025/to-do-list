@@ -10,13 +10,15 @@
   border-radius: 8px;
   border: 1px solid ;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  
+  width: 90%; 
+  cursor: grab;
 }
 
+ 
 .task-card__container:first-child{
   margin-top: .5rem;
 }
+ 
 
 .task-card__container:last-child{
   margin-bottom: .5rem;
@@ -43,8 +45,8 @@
 .expand-button {
 
   grid-area: expand;
-  width: 4rem;
-  background: black;
+  width: 2rem;
+  background: transparent;
   border: none;
   font-size: 1.2rem;
   cursor: pointer;

@@ -1,21 +1,17 @@
 .task-detail__container {
-
   position: absolute;
-  /* importante para posicionar relativo ao pai */
   top: 0;
   left: 0;
-  /* corrigir left: 1 para left: 0 (unidade faltando) */
   width: 20%;
-  /* ocupa 20% da largura do pai */
+
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+ 
 
-  /* background-color: pink; */
-  /* teste */
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
   transform: translateX(-100%);
-  /* posição visível inicial */
+
   transition: transform .45s cubic-bezier(0.25, 0.8, 0.25, 1);
   z-index: 1000;
 
@@ -27,21 +23,21 @@
 
 }
 
-/* Painel abre: mantém a posição original */
+
 .task-detail__container.opening {
   transform: translateX(0);
 }
 
-/* Painel fecha: esconde para a esquerda */
+
 .task-detail__container.closing {
   transition: transform .45s cubic-bezier(0.25, 0.8, 0.25, 1);
   transform: translateX(-100%);
 }
 
-/* Empurra o conteúdo para direita enquanto painel aberto */
+
 .board__container.panel-open .board-columns__container {
   margin-left: 20%;
-  /* deve ser igual à largura do painel */
+
 }
 
 
@@ -97,45 +93,62 @@ select {
   cursor: pointer;
 }
 
-.cancelled-style-option{
- color: var(--cancelled);
+.cancelled-style-option {
+  color: var(--cancelled);
 }
-.backlog-style-option{
- color: var(--backlog);
+
+.backlog-style-option {
+  color: var(--backlog);
 }
-.in_progress-style-option{
- color: var(--inProgress);
+
+.in_progress-style-option {
+  color: var(--inProgress);
 }
-.done-style-option{
- color: var(--done);
+
+.done-style-option {
+  color: var(--done);
 }
 
 .task-detail-header {
   display: flex;
-  justify-content: space-between; /* Alinha à esquerda */
-  gap: 0.5rem; /* Espaçamento entre os botões */
+  justify-content: space-between;
+  /* Alinha à esquerda */
+  gap: 0.5rem;
+  /* Espaçamento entre os botões */
   margin-bottom: 1rem;
- 
+
+}
+
+.delete-button>.header__SVG {
+  width: 2rem;
+  height: 2rem;
+
+  color: var(--cancelled);
+}
+
+.delete-button>.header__SVG:hover {
+
+  color: red;
 }
 
 
 .delete-button,
 .close-panel {
-  background: transparent;
+  background-color: transparent;
   border: none;
   font-size: 1rem;
   cursor: pointer;
   padding: 0 0.5rem;
-  color: #555;
+
   transition: color 0.3s ease;
 }
-.close-panel{
+
+.close-panel {
   font-size: 2rem;
 }
-.delete-button:hover {
-  color: red; /* Cor para lixeira ao passar mouse */
-}
+
 
 .close-panel:hover {
-  color: #000; /* Cor para fechar ao passar mouse */
+  color: var(--orange);
+  /* Cor para fechar ao passar mouse */
 }

@@ -53,7 +53,9 @@ const TaskDetail: React.FC<TaskDetailProps> = ({
     <div className={`task-detail__container ${className ?? ""}`}>
       <div className="task-detail-header">
         <button className="delete-button" onClick={handleDelete}>
-          Lixeira
+           <svg className="header__SVG">
+            <use xlinkHref="/icons.svg#lixeira" />
+          </svg>
         </button>
         <button className="close-panel" onClick={onClose}>
           ×
