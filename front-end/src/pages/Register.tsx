@@ -14,9 +14,16 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
   const { setToken } = useAuth();
 
-  const handleRegister = async () => {
-    if (!name || !email || !password) {
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!name || !email || !password || !confirmPassword || !role) {
       alert("Preencha todos os campos");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("As senhas não coincidem");
       return;
     }
 
@@ -33,21 +40,19 @@ const Register: React.FC = () => {
     }
   };
 
-
   return (
     <div className="register-form__container">
       <h2>Cadastro de usuário</h2>
-      <form className="register-form__internal-container">
+      <form className="register-form__internal-container" onSubmit={handleRegister}>
         <div className="register-input__box">
           <label htmlFor="name">Nome:</label>
           <input
             type="text"
             id="name"
-            name="name"
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-             placeholder="Nome do funcionário"
+            placeholder="Nome do funcionário"
           />
         </div>
 
@@ -56,7 +61,6 @@ const Register: React.FC = () => {
           <input
             type="email"
             id="email"
-            name="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -69,11 +73,10 @@ const Register: React.FC = () => {
           <input
             type="password"
             id="password"
-            name="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-             placeholder="Insira uma senha"
+            placeholder="Insira uma senha"
           />
         </div>
 
@@ -82,30 +85,30 @@ const Register: React.FC = () => {
           <input
             type="password"
             id="confirm-password"
-            name="confirm-password"
             required
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirma a senha inserida"
+            placeholder="Confirme a senha"
           />
         </div>
 
         <div className="register-role-selection">
           <select
-            name="role"
             id="role"
             required
             value={role}
             onChange={(e) => setRole(e.target.value)}
           >
-            <option value="" disabled hidden>Cargo</option>
-            <option value="PO">PO/SM</option>
-            <option value="SM">PO</option>
+            <option value="" disabled hidden>
+              Cargo
+            </option>
+            <option value="PO">PO</option>
+            <option value="SM">SM</option>
             <option value="EMPLOYEE">Funcionário</option>
           </select>
         </div>
 
-        <button onClick={handleRegister} className="register-button">
+        <button type="submit" className="register-button">
           Cadastrar
         </button>
       </form>
