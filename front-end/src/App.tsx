@@ -16,10 +16,26 @@ import "./css/TaskDetail.css";
 import "./css/AddTask.css";
 import "./css/Login.css";
 import "./css/Profile.css";
+import "./css/Landing.css";
 
 import React, { useEffect, useState } from "react";
 
+// 👇 APLIQUE ISSO ANTES DE TUDO
+const savedTheme = localStorage.getItem("theme");
+document.documentElement.classList.remove("dark", "light");
+
+if (savedTheme === "dark" || savedTheme === "light") {
+  document.documentElement.classList.add(savedTheme);
+} else {
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.classList.add(prefersDark ? "dark" : "light");
+}
+
+
 const AppContent: React.FC = () => {
+
+
+ 
   const location = useLocation();
   const token = sessionStorage.getItem("token");
   if (token) {
@@ -51,6 +67,8 @@ const AppContent: React.FC = () => {
       sessionStorage.setItem("tasks", JSON.stringify(tasks));
     }
   }, [tasks]);
+
+ 
 
   const handleUpdateTask = (updated: Task) => {
     if (!tasks) return;

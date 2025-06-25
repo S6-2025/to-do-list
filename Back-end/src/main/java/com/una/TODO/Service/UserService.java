@@ -8,6 +8,7 @@ import com.una.TODO.Mapper.TaskMapper;
 import com.una.TODO.Models.User;
 import com.una.TODO.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import java.util.UUID;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,23 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+
+    public UserDTO getUserById(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<TaskResponseDTO> taskDTOs = user.getTasks().stream()
+                .map(TaskMapper::toDTO)
+                .toList();
+
+        return new UserDTO(
+                user.getName(),
+                user.getEmail(),
+                user.getRole(),
+                taskDTOs
+        );
+    }
+
     public UserDTO getUser(String email) {
         User user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));

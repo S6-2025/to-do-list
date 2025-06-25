@@ -8,6 +8,7 @@ const Footer = () => {
 
         <p>© 2025 Patinho. Todos os direitos reservados.
 </p>
+ <a href="https://storyset.com/work">Work illustrations by Storyset</a>
    </div>
  
     </footer>

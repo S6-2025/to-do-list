@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -37,6 +38,24 @@ public class UserController {
             return ResponseEntity.status(500).body("An unexpected error occurred!");
         }
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<Object> getCurrentUser() {
+        try {
+            User authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UUID userId = authenticatedUser.getId();  // UUID
+
+            UserDTO userDTO = service.getUserById(userId);
+            return ResponseEntity.ok(Map.of("user", userDTO));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("An unexpected error occurred!");
+        }
+    }
+
+
 
     @PatchMapping("/user")
     public ResponseEntity<Object> updateUser(@RequestBody UpdateUserDTO updateData) {
