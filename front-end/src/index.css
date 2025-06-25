@@ -68,7 +68,10 @@ html.light {
     --accent-950: #0b0415;
 
 
-
+ --done: 0,128,0;       /* #009110 */
+  --inProgress: 223, 167, 0; /* #dfa700 */
+  --backlog: 0, 149, 141;    /* #00958d */
+  --cancelled: 193, 41, 46;  /* #C1292E */
 
 
   }
@@ -138,6 +141,12 @@ html.dark{
     --accent-800: #c4a9ef;
     --accent-900: #e1d4f7;
     --accent-950: #f0eafb;
+
+
+     --done: 0,128,0;       /* #009110 */
+  --inProgress: 223, 167, 0; /* #dfa700 */
+  --backlog: 0, 149, 141;    /* #00958d */
+  --cancelled: 193, 41, 46;  /* #C1292E */
 
   }
 
