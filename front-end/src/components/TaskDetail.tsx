@@ -71,6 +71,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({
             value={formData.title}
             onChange={handleChange}
             disabled={!canEdit}
+            placeholder="Insira o título da task"
           />
         </label>
 
@@ -82,6 +83,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({
             value={formData.ownerEmail}
             onChange={handleChange}
             disabled={!canEdit}
+            placeholder="Insira o email do responsável task"
           />
         </label>
 

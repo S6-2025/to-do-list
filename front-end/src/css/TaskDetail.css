@@ -33,7 +33,9 @@
   transition: transform .45s cubic-bezier(0.25, 0.8, 0.25, 1);
   transform: translateX(-100%);
 }
-
+.task-detail__container::placeholder{
+  background-color: black;
+}
 
 .board__container.panel-open .board-columns__container {
   margin-left: 20%;

@@ -91,6 +91,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
+                  placeholder="Insira o título da task"
                 />
               </label>
 
@@ -101,6 +102,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
                   onChange={(e) => setDescription(e.target.value)}
                   rows={3}
                   required
+                  placeholder="Insira a descrição"
                 />
               </label>
 
@@ -158,6 +160,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
                   value={ownerEmail}
                   onChange={(e) => setOwnerEmail(e.target.value)}
                   required
+                  placeholder="Insira o email do responsável task"
                 />
               </label>
 

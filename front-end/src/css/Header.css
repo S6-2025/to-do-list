@@ -81,10 +81,13 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+   background-color: transparent;
 }
 
 .theme > .header__SVG{
-  background-color: aqua;
+ background-color: transparent;
   width: 2rem;
   height: 2rem;
+  
+
 }
