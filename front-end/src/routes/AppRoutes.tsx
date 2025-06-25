@@ -8,7 +8,7 @@ import Profile from "../pages/Profile";
 import PrivateRoute from "../routes/PrivateRoute";
 import { Task } from "../utils/TasksTypes";
 import Register from"../pages/Register";
-// import PublicRoute from "./PublicRoute";
+import PublicRoute from "./PublicROute";
 
 type AppRoutesProps = {
   tasks: Task[];
@@ -19,20 +19,36 @@ type AppRoutesProps = {
 const AppRoutes: React.FC<AppRoutesProps> = ({ tasks, setTasks, onUpdateTask }) => {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/landing" element={<Landing />} />
-        <Route path="/register" element={<Register />}/>
+     <Route
+  path="/login"
+  element={
+    <PublicRoute>
+      <Login />
+    </PublicRoute>
+  }
+/>
 
-      <Route
-        path="/todo"
-        element={
-          <PrivateRoute >
-            <Todo />
-          </PrivateRoute>
-        }
-      />
+<Route path="/landing" element={<Landing />} />
 
-  <Route
+<Route
+  path="/register"
+  element={
+    <PrivateRoute>
+      <Register />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/todo"
+  element={
+    <PrivateRoute>
+      <Todo />
+    </PrivateRoute>
+  }
+/>
+
+<Route
   path="/profile"
   element={
     <PrivateRoute>
@@ -41,9 +57,9 @@ const AppRoutes: React.FC<AppRoutesProps> = ({ tasks, setTasks, onUpdateTask }) 
   }
 />
 
+{/* Catch-all para redirecionar URLs inválidas */}
+<Route path="*" element={<Landing />} />
 
-      {/* Redirecionar qualquer rota não mapeada para landing */}
-      <Route path="*" element={<Landing />} />
     </Routes>
   );
 };

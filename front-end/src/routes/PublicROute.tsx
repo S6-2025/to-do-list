@@ -9,8 +9,9 @@ interface PublicRouteProps {
 const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
   const token = sessionStorage.getItem("token");
 
+  // Se estiver logado, redireciona para o /todo
   if (token) {
-    return <Navigate to="/result" replace />;
+    return <Navigate to="/todo" replace />;
   }
 
   return children;
