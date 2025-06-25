@@ -10,15 +10,15 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
- background-color:var(--primary-400);
-  color: white;
+ background-color:var(--background-800);
+ color: var(--accent-50);
   transition: background-color 0.3s ease;
 
 
 }
 
 .button-open-addtask:hover {
- background-color:var(--primary-500);
+ background-color:var(--background-900);
 }
 
 .modal-overlay-addtask {

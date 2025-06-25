@@ -15,7 +15,7 @@
     height: 75vh;
     width: 60vw;
     border-radius: 1rem;
-    background-color: var(--secondary-300);
+    background-color: var(--secondary-200);
     box-shadow: 20px 20px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -105,10 +105,10 @@
 
 .login-button {
     width: 100%;
-    height: 2rem;
-    background: var(--primary-400);
+    height: 2.6rem;
+   background-color: var(--secondary-200);
     border-radius: 10px;
-    border: 1px solid var(--primary-400);
+    border: 1px solid var(--secondary-200);
     cursor: pointer;
 
     color: var(--text-900);

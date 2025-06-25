@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Landing: React.FC = () => {
   return (
@@ -26,7 +27,9 @@ const Landing: React.FC = () => {
           negócio merece.
         </p>
 
-        <button>Start Now</button>
+        <button className="button-landing"><Link to="/login" className="link-landing">
+                Comece agora!
+              </Link></button>
       </div>
 
     </main>

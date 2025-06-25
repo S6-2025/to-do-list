@@ -73,12 +73,13 @@ const AppContent: React.FC = () => {
     );
   };
 
-  const shouldShowHeader = location.pathname !== "/login";
   const shouldShowFooter = location.pathname !== "/login";
 
   return (
     <div className="app-container">
-      {shouldShowHeader && <Header />}
+      {/* Header sempre montado, apenas escondido visualmente no /login */}
+      <Header isHidden={location.pathname === "/login"} />
+
       <div className="main-content">
         {tasks !== null && (
           <Routes location={state?.backgroundLocation || location}>
@@ -108,6 +109,7 @@ const AppContent: React.FC = () => {
           </Routes>
         )}
       </div>
+
       {shouldShowFooter && <Footer />}
     </div>
   );

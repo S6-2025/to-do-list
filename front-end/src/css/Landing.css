@@ -55,7 +55,7 @@
   font-size: 1.2rem;
 }
 
-.text-landing-container>button {
+.button-landing {
   padding: .2rem;
   text-align: center;
   width: 35%;
@@ -70,7 +70,10 @@
   color: var(--text-100);
   background-color: var(--primary-800);
 }
+.button-landing> .link-landing{
 
+  color: var(--text-100);
+}
 .text-landing-container>button:hover {
  background-color: var(--primary-700);
 }
