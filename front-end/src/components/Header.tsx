@@ -43,7 +43,9 @@ const toggleTheme = () => {
             </Link>
           </li>
         <li>
-            <button onClick={toggleTheme} className="links-header">Tema</button>
+            <button onClick={toggleTheme} className="links-header theme"> <svg className="header__SVG">
+            <use xlinkHref="/icons.svg#sun-moon" />
+          </svg></button>
           </li>
         </ul>
       </div>
