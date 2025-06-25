@@ -99,7 +99,7 @@ const Profile: React.FC = () => {
   return (
     <main className="profile-user__container">
       <header className="profile-header">
-        <h1>Profile</h1>
+        <h1>Perfil</h1>
         <button className="btn-logout" onClick={handleLogout}>
           Logout
         </button>
@@ -110,7 +110,7 @@ const Profile: React.FC = () => {
           <section className="profile-section">
             <div className="profile-fields">
               <label>
-                Name:
+                Nome:
                 {editInfo ? (
                   <input
                     type="text"
@@ -143,7 +143,7 @@ const Profile: React.FC = () => {
               </label>
 
               <label>
-                Password:
+                Senha:
                 <span>*****</span>
               </label>
             </div>
@@ -157,7 +157,7 @@ const Profile: React.FC = () => {
               <div className="edit-buttons-row">
                 <button onClick={() => setEditInfo(true)}>Edit Info</button>
                 <button onClick={() => setEditPassword(true)}>
-                  Edit Password
+                  Editar senha
                 </button>
               </div>
             )}
@@ -165,7 +165,7 @@ const Profile: React.FC = () => {
             {editPassword && (
               <div className="password-edit-fields">
                 <label>
-                  Current Password:
+                  Senha atual:
                   <input
                     type="password"
                     autoComplete="current-password"
@@ -175,7 +175,7 @@ const Profile: React.FC = () => {
                 </label>
 
                 <label>
-                  New Password:
+                 Nova Senha:
                   <input
                     type="password"
                     autoComplete="new-password"
@@ -198,41 +198,41 @@ const Profile: React.FC = () => {
                 className="btn-delete"
                 onClick={() => setConfirmDelete(true)}
               >
-                Delete Account
+                Deletar Conta
               </button>
             ) : !confirmDeleteStepTwo ? (
               <div className="confirm-delete">
                 <p>
-                  Are you sure you want to delete your account? This action
-                  cannot be undone.
+                  Você tem certeza de que deseja excluir sua conta? Esta ação não poderá ser desfeita.
+
                 </p>
                 <button
                   className="confirm-yes-button"
                   onClick={() => setConfirmDeleteStepTwo(true)}
                 >
-                  Yes
+                 Sim
                 </button>
                 <button
                   className="cancel-no-button"
                   onClick={() => setConfirmDelete(false)}
                 >
-                  No
+                  Não
                 </button>
               </div>
             ) : (
               <div className="confirm-delete">
-                <p>This is your last chance. Confirm delete account?</p>
+                <p>Última chance. Quer mesmo deletar?</p>
                 <button
                   className="confirm-yes-button"
                   onClick={handleDeleteAccount}
                 >
-                  Confirm Delete
+                  Confirmar
                 </button>
                 <button
                   className="cancel-no-button"
                   onClick={() => setConfirmDeleteStepTwo(false)}
                 >
-                  Cancel
+                  Cancelar
                 </button>
               </div>
             )}

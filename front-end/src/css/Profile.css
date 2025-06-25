@@ -2,14 +2,15 @@
   width: 40rem;
   margin-top: 3rem;
   padding: 20px;
-  background: var(--background-todo);
+  background: var(--background-50);
   border-radius: 6px;
-  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  box-shadow: 0 0 10px rgb(0 2 0 / 0.1);
   font-family: Arial, sans-serif;
   display: grid;
   grid-template-rows: auto auto auto auto;
   gap: 1.5rem;
   align-self: center;
+  border: 1px solid var(--accent-950);
 }
 
 .profile-header {
@@ -84,11 +85,23 @@
   padding: 8px 15px;
   border-radius: 4px;
   border: 1px solid #2c3e50;
-  color: var(--secundary);
+  color: var(--text-950);
   cursor: pointer;
   font-weight: 600;
   transition: background 0.3s ease;
+  background-color: var(--background-100);
+  
 }
+
+ .btn-logout{
+   color: var(--text-950);
+  border: 1px solid #2c3e50;
+    background-color: var(--background-100);
+ }
+
+ .btn-logout:hover{
+   background-color:#2c3e50;
+ }
 
 .profile-buttons-row button:hover,
 .edit-buttons-row button:hover {
@@ -106,7 +119,7 @@
   flex-direction: column;
   gap: 1rem;
   justify-content: space-evenly;
-
+ 
 
 }
 
@@ -128,7 +141,7 @@
 }
 
 .btn-delete {
-  background: #e74c3c;
+  background: rgba(var(--cancelled), .8);
   color: white;
   border: none;
   padding: 10px 16px;
@@ -144,7 +157,7 @@
 
 .confirm-delete {
   background: var(--background-todo);
-  border: 1px solid #e74c3c;
+  border: 1px solid var(--accent-950);
   border-radius: 4px;
   padding: 10px 15px;
   margin-top: 15px;
@@ -166,23 +179,25 @@
 }
 
 .confirm-yes-button {
-  color: var(--warning-color);
-  border: 1px solid var(--warning-color2);
+  color: rgba(var(--cancelled), .8);
+  border: 1px solid rgba(var(--cancelled), .8);
   background: white;
 }
 
-.cancel-no-button {
-  color: var( --green-peace);
-  border: 1px solid var( --green-peace);
-  background: white;
-}
+
 
 .confirm-yes-button:hover {
   background: #e74c3c;
   color: white;
 }
+.cancel-no-button {
+  color: var( --text-50);
+  border: 1px solid var(--primary-700);
+  background-color: var(--primary-700);
 
+}
 .cancel-no-button:hover {
-  background: var( --green-peace2);
+   border-color: var(--primary-400);
+  background: var(--primary-400);
   color: white;
 }
