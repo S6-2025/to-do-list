@@ -5,85 +5,126 @@
     "title title";
   grid-template-columns: 1fr auto;
   gap: 0.5rem;
-  background-color: #4b4a4a49;
+  background-color:transparent;
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid ;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid;
+  border-left: 5px solid;
   width: 90%;
-  
+  cursor: grab;
+
+  color: var(--text-900);
 }
 
-.task-card__container:first-child{
+
+.task-card__container:first-child {
   margin-top: .5rem;
 }
 
-.task-card__container:last-child{
+
+.task-card__container:last-child {
   margin-bottom: .5rem;
 }
 
 
-.task-card__container input {
-  font-size: 1rem;
-  padding: 0.3rem;
-  width: 100%;
-  border:  none;
-  
-}
 
 
 .task-assigned {
   grid-area: assigned;
-  font-size: 0.9rem;
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1rem;
+  color: var(--text-950);
   align-self: center;
   cursor: pointer;
+}
+.task-assigned > .header__SVG{
+
+  height: 1rem;
+  width: 1rem;
+ 
 }
 
 .expand-button {
 
   grid-area: expand;
-  width: 4rem;
-  background: black;
+  width: 2rem;
+  background: transparent;
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
   align-self: start;
   justify-self: end;
   cursor: pointer;
+  color: var(--primary-950);
+
+  font-weight: 800;
 }
 
 .task-title {
   grid-area: title;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: bold;
   margin-top: 0.3rem;
   cursor: pointer;
 }
 
 .taskcard-cancelled {
- 
-  border-left: 5px solid;
-  border-color:  rgba(var(--cancelled), 0.3);
- 
+
+  border-color: rgba(var(--cancelled), 0.8);
+
+
 }
 
 .taskcard-backlog {
- 
-  border-left: 5px solid;
+
+
   border-color: rgba(var(--backlog), 0.3);
+
+
 }
 
-.taskcard-in_progress {
- 
+.taskcard-active {
+
   border-left: 5px solid;
-  
+
   border-color: rgba(var(--inProgress), 0.3);
 }
 
-.taskcard-done {
-   
+.taskcard-finished {
+
   border-left: 5px solid;
-  
+
   border-color: rgba(var(--done), .3);
+}
+
+
+.task-priority {
+  margin-top: .5rem;
+  color: var(--inProgress);
+  font-size: 1rem;
+
+  width: fit-content;
+  padding: .5rem;
+  border-radius: 15px;
+  font-style: normal;
+  font-weight: 600;
+  font-family: var(-font-read);
+}
+
+.task-priority-high {
+  color: #e9f2fb;
+  background-color: rgba(var(--cancelled), .6);
+}
+
+.task-priority-medium {
+  color: #e9f2fb;
+  background-color: rgba(var(--inProgress), .6);
+}
+
+.task-priority-low {
+  color: #e9f2fb;
+  background-color: rgba(var(--backlog), .6);
 }

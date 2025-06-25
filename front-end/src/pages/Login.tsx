@@ -59,6 +59,7 @@ const handleLogin = async () => {
                 type="password"
                 id="password"
                 name="password"
+                placeholder="Senha"
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
@@ -68,7 +69,7 @@ const handleLogin = async () => {
             <button className="login-button" onClick={handleLogin}>
               Entrar
             </button>
-            <a className="forgot-password">Esqueci a senha</a>
+            {/* <a className="forgot-password">Esqueci a senha</a> */}
           </div>
         </div>
       </div>

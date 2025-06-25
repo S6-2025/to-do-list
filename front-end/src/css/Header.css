@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
+  
 }
 
 .header--hidden {
@@ -18,7 +19,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
+
 }
 
 .links-container-header {
@@ -55,8 +56,7 @@
 }
 
 .logo-header> h1{
-    font-family: var(--libre);
-     
+    font-family: var(--font-logo);
     font-size: 3rem;
 }
 
@@ -65,10 +65,29 @@
   height: 2rem;
   text-decoration: none;
   margin-right: 1rem;
+  display: none;
 }
 
 .logo-header > .header__SVG,
 .logo-header > h1,
 .links-header {
-  color: var(--secondary-todo) ;
+  color: var(--text-800);
+}
+
+.theme{
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+   background-color: transparent;
+}
+
+.theme > .header__SVG{
+ background-color: transparent;
+  width: 2rem;
+  height: 2rem;
+  
+
 }

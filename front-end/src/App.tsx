@@ -1,8 +1,11 @@
-import AppRoutes from "./routes/AppRoutes";
-import { BrowserRouter, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, useLocation, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ModalWrapper from "./components/ModalWrapper";
+import Register from "./pages/Register";
+import AppRoutes from "./routes/AppRoutes";
 import { Task } from "./utils/TasksTypes";
 import { setAuthToken } from "./services/Api";
 
@@ -16,11 +19,24 @@ import "./css/TaskDetail.css";
 import "./css/AddTask.css";
 import "./css/Login.css";
 import "./css/Profile.css";
+import "./css/Landing.css";
+import "./css/Register.css";
+import "./css/ModalWrapper.css";
 
-import React, { useEffect, useState } from "react";
+// 👇 APLIQUE ISSO ANTES DE TUDO
+const savedTheme = localStorage.getItem("theme");
+document.documentElement.classList.remove("dark", "light");
+if (savedTheme === "dark" || savedTheme === "light") {
+  document.documentElement.classList.add(savedTheme);
+} else {
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.classList.add(prefersDark ? "dark" : "light");
+}
 
 const AppContent: React.FC = () => {
   const location = useLocation();
+  const state = location.state as { backgroundLocation?: Location };
+
   const token = sessionStorage.getItem("token");
   if (token) {
     setAuthToken(token);
@@ -31,7 +47,6 @@ const AppContent: React.FC = () => {
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Carrega tasks do sessionStorage no início
   useEffect(() => {
     const stored = sessionStorage.getItem("tasks");
     if (stored) {
@@ -45,7 +60,6 @@ const AppContent: React.FC = () => {
     }
   }, []);
 
-  // Atualiza o sessionStorage sempre que mudar
   useEffect(() => {
     if (tasks !== null) {
       sessionStorage.setItem("tasks", JSON.stringify(tasks));
@@ -59,19 +73,44 @@ const AppContent: React.FC = () => {
     );
   };
 
+  const shouldShowFooter = location.pathname !== "/login";
+
   return (
     <div className="app-container">
+      {/* Header sempre montado, apenas escondido visualmente no /login */}
       <Header isHidden={location.pathname === "/login"} />
+
       <div className="main-content">
         {tasks !== null && (
-          <AppRoutes
-            tasks={tasks}
-            setTasks={setTasks}
-            onUpdateTask={handleUpdateTask}
-          />
+          <Routes location={state?.backgroundLocation || location}>
+            <Route
+              path="/*"
+              element={
+                <AppRoutes
+                  tasks={tasks}
+                  setTasks={setTasks}
+                  onUpdateTask={handleUpdateTask}
+                />
+              }
+            />
+          </Routes>
+        )}
+
+        {state?.backgroundLocation && (
+          <Routes>
+            <Route
+              path="/register"
+              element={
+                <ModalWrapper>
+                  <Register />
+                </ModalWrapper>
+              }
+            />
+          </Routes>
         )}
       </div>
-      <Footer />
+
+      {shouldShowFooter && <Footer />}
     </div>
   );
 };

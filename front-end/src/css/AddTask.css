@@ -10,16 +10,18 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  background-color: #007bff;
-  color: white;
+ background-color:var(--background-800);
+ color: var(--accent-50);
   transition: background-color 0.3s ease;
+
+
 }
 
 .button-open-addtask:hover {
-  background-color: #0056b3;
+ background-color:var(--background-900);
 }
 
-.modal-overlay {
+.modal-overlay-addtask {
   position: fixed;
   top: 0;
   left: 0;
@@ -30,39 +32,53 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+ 
 }
 
-.modal-content {
-  background-color: var(--background-todo);
+.modal-content-addtask {
+  background-color: var(--background-50);
   border-radius: 8px;
-  padding: 1.5rem;
-  width: 400px;
+  padding: 2rem;
+  width: 40rem;
   position: relative;
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+
+  display: flex;
+  flex-direction: column;
+ justify-content: center;
+ align-items: center;
+
 }
 
-.modal-close-button {
+.modal-close-button-addtask {
   position: absolute;
-  top: 10px;
+  top: 1px;
   right: 10px;
   background: transparent;
   border: none;
-  font-size: 1.5rem;
+  font-size: 2.4rem;
   cursor: pointer;
-  color: #555;
+  color: var(--secondary-950);
   transition: color 0.3s ease;
+
 }
 
-.modal-close-button:hover {
-  color: #000;
+.modal-close-button-addtask:hover {
+color: var(--secondary-800);
 }
 
+.add-task-form{
+  
+  width: 80%;
+  padding: 2rem;
+}
 .add-task-form label {
   display: flex;
   flex-direction: column;
   margin-bottom: 0.8rem;
   font-weight: 600;
   font-size: 0.95rem;
+
 }
 
 .add-task-form input,
@@ -73,6 +89,12 @@
   border-radius: 4px;
   border: 1px solid #ccc;
   margin-top: 0.2rem;
+  
+  
+}
+
+.add-task-form select{
+  background-color: var(--background-900);
 }
 
 .add-task-form textarea {
@@ -80,7 +102,7 @@
 }
 
 .button-submit-task {
-  background-color: #007bff;
+  background-color:var(--primary-400);
   color: white;
   padding: 0.5rem 1.2rem;
   border: none;
@@ -93,5 +115,5 @@
 }
 
 .button-submit-task:hover {
-  background-color: #0056b3;
+  background-color:var(--primary-300);
 }

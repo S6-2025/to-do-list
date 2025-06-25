@@ -13,8 +13,8 @@ export default function PrivateRoute({ children, allowedRoles }: PrivateRoutePro
 
   // Enquanto carrega estado auth (se quiser implementar async), pode retornar null ou spinner
   if (token === null) {
-    // Aqui pode ter um estado de carregamento se desejar
-    return null;
+ 
+    return <Navigate to="/landing" replace />;
   }
 
   if (!token) {

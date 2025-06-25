@@ -1,18 +1,24 @@
 .profile-user__container {
-  max-width: 600px;
-  margin: 40px auto;
+  width: 40rem;
+  margin-top: 3rem;
   padding: 20px;
-  background: #f9f9f9;
+  background: var(--background-50);
   border-radius: 6px;
-  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  box-shadow: 0 0 10px rgb(0 2 0 / 0.1);
   font-family: Arial, sans-serif;
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  gap: 1.5rem;
+  align-self: center;
+  border: 1px solid var(--accent-950);
 }
 
 .profile-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 0;
+  /* tiramos pois o espaçamento já é feito pela grid */
 }
 
 .profile-header h1 {
@@ -21,7 +27,7 @@
 }
 
 .btn-logout {
-  background: #e74c3c;
+  background: var( --orange);
   color: white;
   border: none;
   padding: 8px 14px;
@@ -32,51 +38,73 @@
 }
 
 .btn-logout:hover {
-  background: #c0392b;
+  background: var( --orange2);
 }
 
 .profile-section {
-  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.profile-section label {
+.profile-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8rem;
+}
+
+.profile-fields label {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
   font-weight: 500;
 }
 
-.profile-section label span {
+.profile-fields label span {
   min-width: 200px;
   text-align: right;
   font-weight: 400;
   user-select: none;
 }
 
-.profile-section label input {
-  min-width: 200px;
+.profile-fields label input {
+  flex: 1;
+  max-width: 20rem;
   padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  border-radius: 0;
 }
 
-.profile-buttons-row {
+.profile-buttons-row,
+.edit-buttons-row {
   display: flex;
   justify-content: flex-end;
   gap: 15px;
 }
 
-.profile-buttons-row button {
+.profile-buttons-row button,
+.edit-buttons-row button {
   padding: 8px 15px;
   border-radius: 4px;
   border: 1px solid #2c3e50;
-  background: white;
+  color: var(--text-950);
   cursor: pointer;
   font-weight: 600;
   transition: background 0.3s ease;
+  background-color: var(--background-100);
+  
 }
 
-.profile-buttons-row button:hover {
+ .btn-logout{
+   color: var(--text-950);
+  border: 1px solid #2c3e50;
+    background-color: var(--background-100);
+ }
+
+ .btn-logout:hover{
+   background-color:#2c3e50;
+ }
+
+.profile-buttons-row button:hover,
+.edit-buttons-row button:hover {
   background: #2c3e50;
   color: white;
 }
@@ -85,8 +113,35 @@
   margin-top: 4px;
 }
 
+
+.password-edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-evenly;
+ 
+
+}
+
+.password-edit-fields label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.password-edit-fields input {
+  margin-left: 1rem;
+  flex: 1;
+  max-width: 20rem;
+  padding: .5rem;
+  border-radius: 0px;
+}
+
+.delete-account-section {
+  margin-top: 1rem;
+}
+
 .btn-delete {
-  background: #e74c3c;
+  background: rgba(var(--cancelled), .8);
   color: white;
   border: none;
   padding: 10px 16px;
@@ -101,8 +156,8 @@
 }
 
 .confirm-delete {
-  background: #ffe6e6;
-  border: 1px solid #e74c3c;
+  background: var(--background-todo);
+  border: 1px solid var(--accent-950);
   border-radius: 4px;
   padding: 10px 15px;
   margin-top: 15px;
@@ -117,14 +172,32 @@
   margin-right: 10px;
   padding: 6px 12px;
   border-radius: 4px;
-  border: 1px solid #e74c3c;
-  background: white;
+  box-shadow: none;
   cursor: pointer;
   font-weight: 600;
   transition: background 0.3s ease;
 }
 
-.confirm-delete button:hover {
+.confirm-yes-button {
+  color: rgba(var(--cancelled), .8);
+  border: 1px solid rgba(var(--cancelled), .8);
+  background: white;
+}
+
+
+
+.confirm-yes-button:hover {
   background: #e74c3c;
+  color: white;
+}
+.cancel-no-button {
+  color: var( --text-50);
+  border: 1px solid var(--primary-700);
+  background-color: var(--primary-700);
+
+}
+.cancel-no-button:hover {
+   border-color: var(--primary-400);
+  background: var(--primary-400);
   color: white;
 }

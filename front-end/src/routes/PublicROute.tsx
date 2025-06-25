@@ -1,19 +1,20 @@
-// import type { JSX } from "react";
-// import React from "react";
-// import { Navigate } from "react-router-dom";
+import type { JSX } from "react";
+import React from "react";
+import { Navigate } from "react-router-dom";
 
-// interface PublicRouteProps {
-//   children: JSX.Element;
-// }
+interface PublicRouteProps {
+  children: JSX.Element;
+}
 
-// const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
-//   const token = sessionStorage.getItem("token");
+const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
+  const token = sessionStorage.getItem("token");
 
-//   if (token) {
-//     return <Navigate to="/result" replace />;
-//   }
+  // Se estiver logado, redireciona para o /todo
+  if (token) {
+    return <Navigate to="/todo" replace />;
+  }
 
-//   return children;
-// };
+  return children;
+};
 
-// export default PublicRoute;
+export default PublicRoute;
