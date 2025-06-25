@@ -32,7 +32,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onExpand, index, canEdit }) =
 
       {/* Área de conteúdo que pode ser arrastada */}
       <div className="task-card__drag-content" {...listeners} {...attributes}>
-        <p className="task-assigned">{task.ownerEmail}</p>
+        <p className="task-assigned">  <svg className="header__SVG">
+            <use xlinkHref="/icons.svg#person" />
+          </svg> {task.ownerEmail}</p>
         <h3 className="task-title">{task.title}</h3>
         <p className={`task-priority task-priority-${task.priority.toLowerCase()}`}>
           {task.priority.toLowerCase()}
